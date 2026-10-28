@@ -380,7 +380,9 @@ let isDraggingTimeline = false;
 
 function handleTimelineScrub(e) {
   const rect = timelineTrack.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
+  // Support both mouse clientX and touch clientX
+  const clientX = e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+  const clickX = clientX - rect.left;
   const ratio = Math.max(0, Math.min(1, clickX / rect.width));
   seekToTime(ratio * state.duration);
 }
@@ -392,6 +394,25 @@ timelineTrack.addEventListener('mousedown', (e) => {
   isDraggingTimeline = true;
   if (state.isPlaying) togglePlay(); // Pause playback while scrubbing
   handleTimelineScrub(e);
+});
+
+// Mobile Touch Support for Timeline Scrubbing
+timelineTrack.addEventListener('touchstart', (e) => {
+  if (e.target.classList.contains('keyframe-diamond')) return;
+  isDraggingTimeline = true;
+  if (state.isPlaying) togglePlay();
+  handleTimelineScrub(e);
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+  if (!isDraggingTimeline) return;
+  handleTimelineScrub(e);
+}, { passive: true });
+
+window.addEventListener('touchend', () => {
+  if (isDraggingTimeline) {
+    isDraggingTimeline = false;
+  }
 });
 
 window.addEventListener('mousemove', (e) => {
