@@ -25,181 +25,212 @@
           <span class="subtext">مشروع مادة الوسائط المتعددة (Multimedia Computing)</span>
         </div>
       </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs" aria-label="أقسام المنصة">
+        <button type="button" class="nav-tab active" data-tab="tab-animation">
+          <span class="nav-tab-icon">🎬</span> مختبر التحريك (Animation Lab)
+        </button>
+        <button type="button" class="nav-tab" data-tab="tab-theory">
+          <span class="nav-tab-icon">📚</span> المفاهيم والنظريات (Theory Hub)
+        </button>
+      </nav>
+
       <div class="project-info">
         <span class="tag">إعداد الطالب: سامي</span>
         <span class="tag tag-accent">Interactive Prototype v1.0</span>
       </div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="workspace">
-      <!-- Sidebar Controls: Properties & Transform -->
-      <aside class="panel controls-panel">
-        <div class="panel-header">
-          <h3>خصائص التحريك (Transform)</h3>
-          <span class="badge">Layer 1</span>
-        </div>
+      <!-- Tab 1: Animation Lab (Preserves All Existing Elements & IDs) -->
+      <section id="tab-animation" class="tab-pane active" aria-labelledby="tab-animation-btn">
+        <!-- Main Workspace -->
+        <main class="workspace">
+          <!-- Sidebar Controls: Properties & Transform -->
+          <aside class="panel controls-panel">
+            <div class="panel-header">
+              <h3>خصائص التحريك (Transform)</h3>
+              <span class="badge">Layer 1</span>
+            </div>
 
-        <div class="control-group">
-          <label>الموقع السيني (Position X): <span id="val-pos-x">200px</span></label>
-          <input type="range" id="slider-pos-x" min="40" max="500" value="200">
-        </div>
+            <div class="control-group">
+              <label>الموقع السيني (Position X): <span id="val-pos-x">200px</span></label>
+              <input type="range" id="slider-pos-x" min="40" max="500" value="200">
+            </div>
 
-        <div class="control-group">
-          <label>الموقع الصادي (Position Y): <span id="val-pos-y">150px</span></label>
-          <input type="range" id="slider-pos-y" min="40" max="260" value="150">
-        </div>
+            <div class="control-group">
+              <label>الموقع الصادي (Position Y): <span id="val-pos-y">150px</span></label>
+              <input type="range" id="slider-pos-y" min="40" max="260" value="150">
+            </div>
 
-        <div class="control-group">
-          <label>الحجم (Scale): <span id="val-scale">100%</span></label>
-          <input type="range" id="slider-scale" min="20" max="250" value="100">
-        </div>
+            <div class="control-group">
+              <label>الحجم (Scale): <span id="val-scale">100%</span></label>
+              <input type="range" id="slider-scale" min="20" max="250" value="100">
+            </div>
 
-        <div class="control-group">
-          <label>الدوران (Rotation): <span id="val-rot">0°</span></label>
-          <input type="range" id="slider-rot" min="0" max="360" value="0">
-        </div>
+            <div class="control-group">
+              <label>الدوران (Rotation): <span id="val-rot">0°</span></label>
+              <input type="range" id="slider-rot" min="0" max="360" value="0">
+            </div>
 
-        <div class="control-group">
-          <label>الشفافية (Opacity): <span id="val-opacity">100%</span></label>
-          <input type="range" id="slider-opacity" min="0" max="100" value="100">
-        </div>
+            <div class="control-group">
+              <label>الشفافية (Opacity): <span id="val-opacity">100%</span></label>
+              <input type="range" id="slider-opacity" min="0" max="100" value="100">
+            </div>
 
-        <div class="panel-divider"></div>
+            <div class="panel-divider"></div>
 
-        <!-- Multimedia Theoretical Concepts: Blending Modes -->
-        <div class="panel-header">
-          <h3>نمط الدمج (Blend Mode)</h3>
-        </div>
-        <div class="control-group">
-          <label for="select-blend-mode">خوارزمية دمج البكسلات:</label>
-          <select id="select-blend-mode">
-            <option value="normal">Normal (عادي)</option>
-            <option value="multiply">Multiply (ضرب البكسلات - عزل الفواتح)</option>
-            <option value="screen">Screen (شاشة - عزل الغوامق)</option>
-            <option value="overlay">Overlay (تراكب التباين)</option>
-            <option value="difference">Difference (فرق القيم اللونية)</option>
-          </select>
-        </div>
-        <p class="hint-text" id="blend-explanation">
-          النمط الحالي: <strong>Normal</strong> (لا يوجد معالجة رياضية للألوان).
-        </p>
-
-        <div class="panel-divider"></div>
-
-        <div class="control-group">
-          <label>دالة التسارع (Easing Curve):</label>
-          <select id="select-easing">
-            <option value="linear">Linear (حركة خطية منتظمة)</option>
-            <option value="ease-in-out">Easy Ease (تسارع وتباطؤ ناعم)</option>
-            <option value="ease-in">Ease In (بداية بطيئة)</option>
-            <option value="ease-out">Ease Out (نهاية ناعمة)</option>
-          </select>
-        </div>
-      </aside>
-
-      <!-- Center Stage: Viewport / Monitor -->
-      <section class="panel monitor-panel">
-        <div class="panel-header monitor-header">
-          <div class="viewport-title">
-            <span class="dot live-dot"></span>
-            <span>Composition 1 (1920x1080 Full HD Preview)</span>
-          </div>
-          <div class="monitor-actions">
-            <!-- Background Selector -->
-            <div class="bg-mode-selector">
-              <label for="select-bg-mode">الخلفية:</label>
-              <select id="select-bg-mode" class="select-compact">
-                <option value="studio" selected>Dark Studio (داكن احترافي)</option>
-                <option value="checkerboard">Alpha Grid (شفافية)</option>
-                <option value="gradient">Sample Artwork (تدرج للدمج)</option>
+            <!-- Multimedia Theoretical Concepts: Blending Modes -->
+            <div class="panel-header">
+              <h3>نمط الدمج (Blend Mode)</h3>
+            </div>
+            <div class="control-group">
+              <label for="select-blend-mode">خوارزمية دمج البكسلات:</label>
+              <select id="select-blend-mode">
+                <option value="normal">Normal (عادي)</option>
+                <option value="multiply">Multiply (ضرب البكسلات - عزل الفواتح)</option>
+                <option value="screen">Screen (شاشة - عزل الغوامق)</option>
+                <option value="overlay">Overlay (تراكب التباين)</option>
+                <option value="difference">Difference (فرق القيم اللونية)</option>
               </select>
             </div>
-            <button id="btn-toggle-grid" class="btn-sm">شبكة المحاذاة (Grid)</button>
-            <button id="btn-reset" class="btn-sm btn-danger">إعادة ضبط</button>
-          </div>
-        </div>
-
-        <!-- Render Viewport -->
-        <div class="viewport-container" id="viewport">
-          <div class="grid-overlay" id="grid"></div>
-
-          <!-- Background Base Layer (Texture / Background) -->
-          <div class="comp-layer background-layer"></div>
-
-          <!-- Animated Target Layer -->
-          <div class="comp-layer animated-object" id="anim-target">
-            <div class="target-content">
-              <div class="inner-icon">Ae</div>
-              <span>Layer 1</span>
-            </div>
-            <!-- Anchor point indicator -->
-            <div class="anchor-point"></div>
-          </div>
-        </div>
-
-        <!-- Explanation info banner for professor -->
-        <div class="concept-card">
-          <div class="concept-icon">💡</div>
-          <div class="concept-body">
-            <h4>ماذا يحدث في هذا المحاكي؟</h4>
-            <p>
-              يقوم هذا النموذج بمحاكاة عمليات تحريك الرسوميات (Spatial & Temporal Interpolation) المستخدمة في برنامج
-              After Effects. يتم هنا حساب الإحداثيات والزوايا برمجياً وتطبيق الـ Keyframes والـ Blending Modes بلحظتها
-              (Real-time Rendering).
+            <p class="hint-text" id="blend-explanation">
+              النمط الحالي: <strong>Normal</strong> (لا يوجد معالجة رياضية للألوان).
             </p>
+
+            <div class="panel-divider"></div>
+
+            <div class="control-group">
+              <label>دالة التسارع (Easing Curve):</label>
+              <select id="select-easing">
+                <option value="linear">Linear (حركة خطية منتظمة)</option>
+                <option value="ease-in-out">Easy Ease (تسارع وتباطؤ ناعم)</option>
+                <option value="ease-in">Ease In (بداية بطيئة)</option>
+                <option value="ease-out">Ease Out (نهاية ناعمة)</option>
+              </select>
+            </div>
+          </aside>
+
+          <!-- Center Stage: Viewport / Monitor -->
+          <section class="panel monitor-panel">
+            <div class="panel-header monitor-header">
+              <div class="viewport-title">
+                <span class="dot live-dot"></span>
+                <span>Composition 1 (1920x1080 Full HD Preview)</span>
+              </div>
+              <div class="monitor-actions">
+                <!-- Fullscreen Toggle Button (YouTube-style Fullscreen API) -->
+                <button type="button" id="btn-toggle-maximize" class="btn-sm" title="عرض المعاينة بملء الشاشة بالكامل (Fullscreen)">
+                  ⛶ ملء الشاشة (Fullscreen)
+                </button>
+
+                <!-- Background Selector -->
+                <div class="bg-mode-selector">
+                  <label for="select-bg-mode">الخلفية:</label>
+                  <select id="select-bg-mode" class="select-compact">
+                    <option value="studio" selected>Dark Studio (داكن احترافي)</option>
+                    <option value="checkerboard">Alpha Grid (شفافية)</option>
+                    <option value="gradient">Sample Artwork (تدرج للدمج)</option>
+                  </select>
+                </div>
+                <button id="btn-toggle-grid" class="btn-sm">شبكة المحاذاة (Grid)</button>
+                <button id="btn-reset" class="btn-sm btn-danger">إعادة ضبط</button>
+              </div>
+            </div>
+
+            <!-- Render Viewport -->
+            <div class="viewport-container" id="viewport">
+              <div class="grid-overlay" id="grid"></div>
+
+              <!-- Background Base Layer (Texture / Background) -->
+              <div class="comp-layer background-layer"></div>
+
+              <!-- Animated Target Layer -->
+              <div class="comp-layer animated-object" id="anim-target">
+                <div class="target-content">
+                  <div class="inner-icon">Ae</div>
+                  <span>Layer 1</span>
+                </div>
+                <!-- Anchor point indicator -->
+                <div class="anchor-point"></div>
+              </div>
+            </div>
+
+            <!-- Explanation info banner for professor -->
+            <div class="concept-card">
+              <div class="concept-icon">💡</div>
+              <div class="concept-body">
+                <h4>ماذا يحدث في هذا المحاكي؟</h4>
+                <p>
+                  يقوم هذا النموذج بمحاكاة عمليات تحريك الرسوميات (Spatial & Temporal Interpolation) المستخدمة في برنامج
+                  After Effects. يتم هنا حساب الإحداثيات والزوايا برمجياً وتطبيق الـ Keyframes والـ Blending Modes
+                  بلحظتها
+                  (Real-time Rendering).
+                </p>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- Bottom Panel: Interactive Timeline -->
+        <footer class="panel timeline-panel">
+          <div class="timeline-toolbar">
+            <div class="playback-controls">
+              <button id="btn-play" class="btn-control primary">▶ تشغيل (Play)</button>
+              <button id="btn-stop" class="btn-control">⏹ إيقاف</button>
+              <button id="btn-add-keyframe" class="btn-control accent">+ إضافة Keyframe</button>
+              <button id="btn-del-keyframe" class="btn-control btn-danger-action" title="حذف الكي فريم المحدد">🗑 حذف
+                Keyframe</button>
+            </div>
+
+            <div class="timeline-meta">
+              <!-- Frame Rate Selector -->
+              <div class="fps-selector">
+                <label for="select-fps">معدل الإطارات (FPS):</label>
+                <select id="select-fps" class="select-compact">
+                  <option value="24">24 FPS (سينمائي)</option>
+                  <option value="30" selected>30 FPS (قياسي)</option>
+                  <option value="60">60 FPS (سلس)</option>
+                </select>
+              </div>
+
+              <div class="timecode-display">
+                <span class="label">Timecode:</span>
+                <span id="timecode" class="mono">00:00:00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scrubber & Ruler Track -->
+          <div class="timeline-track-wrapper">
+            <div class="timeline-ruler" id="ruler">
+              <span>0s</span><span>1s</span><span>2s</span><span>3s</span><span>4s</span><span>5s</span>
+            </div>
+
+            <div class="timeline-track" id="timeline-track">
+              <!-- Playhead (Scrubber needle) -->
+              <div class="playhead" id="playhead">
+                <div class="playhead-head"></div>
+                <div class="playhead-line"></div>
+              </div>
+
+              <!-- Keyframe indicators will be dynamically injected here -->
+              <div class="keyframes-container" id="keyframes-container"></div>
+            </div>
+          </div>
+        </footer>
+      </section>
+
+      <!-- Tab 2: Theory & Knowledge Hub (Placeholder container for next step) -->
+      <section id="tab-theory" class="tab-pane" aria-labelledby="tab-theory-btn" hidden>
+        <div class="theory-placeholder">
+          <div class="placeholder-card">
+            <span class="placeholder-icon">📚</span>
+            <h2>المفاهيم والنظريات (Theory & Knowledge Hub)</h2>
+            <p>سيتم إدراج المفاهيم التعليمية والعروض التوضيحية التفاعلية هنا في الخطوة التالية.</p>
           </div>
         </div>
       </section>
-    </main>
-
-    <!-- Bottom Panel: Interactive Timeline -->
-    <footer class="panel timeline-panel">
-      <div class="timeline-toolbar">
-        <div class="playback-controls">
-          <button id="btn-play" class="btn-control primary">▶ تشغيل (Play)</button>
-          <button id="btn-stop" class="btn-control">⏹ إيقاف</button>
-          <button id="btn-add-keyframe" class="btn-control accent">+ إضافة Keyframe</button>
-          <button id="btn-del-keyframe" class="btn-control btn-danger-action" title="حذف الكي فريم المحدد">🗑 حذف
-            Keyframe</button>
-        </div>
-
-        <div class="timeline-meta">
-          <!-- Frame Rate Selector -->
-          <div class="fps-selector">
-            <label for="select-fps">معدل الإطارات (FPS):</label>
-            <select id="select-fps" class="select-compact">
-              <option value="24">24 FPS (سينمائي)</option>
-              <option value="30" selected>30 FPS (قياسي)</option>
-              <option value="60">60 FPS (سلس)</option>
-            </select>
-          </div>
-
-          <div class="timecode-display">
-            <span class="label">Timecode:</span>
-            <span id="timecode" class="mono">00:00:00</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Scrubber & Ruler Track -->
-      <div class="timeline-track-wrapper">
-        <div class="timeline-ruler" id="ruler">
-          <span>0s</span><span>1s</span><span>2s</span><span>3s</span><span>4s</span><span>5s</span>
-        </div>
-
-        <div class="timeline-track" id="timeline-track">
-          <!-- Playhead (Scrubber needle) -->
-          <div class="playhead" id="playhead">
-            <div class="playhead-head"></div>
-            <div class="playhead-line"></div>
-          </div>
-
-          <!-- Keyframe indicators will be dynamically injected here -->
-          <div class="keyframes-container" id="keyframes-container"></div>
-        </div>
-      </div>
-    </footer>
   </div>
 
   <script src="app.js"></script>

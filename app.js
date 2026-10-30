@@ -11,7 +11,7 @@ const state = {
   currentTime: 0, // in seconds (0 to 5)
   duration: 5,
   isPlaying: false,
-  gridVisible: true,
+  gridVisible: false,
   keyframes: [
     { time: 0, posX: 80, posY: 60, scale: 70, rotation: 0, opacity: 100 },
     { time: 2.5, posX: 350, posY: 180, scale: 140, rotation: 180, opacity: 90 },
@@ -38,6 +38,9 @@ const blendExplanation = document.getElementById('blend-explanation');
 const selectEasing = document.getElementById('select-easing');
 const selectBgMode = document.getElementById('select-bg-mode');
 const bgLayer = document.querySelector('.background-layer');
+
+const viewportEl = document.getElementById('viewport');
+const btnToggleFullscreen = document.getElementById('btn-toggle-maximize');
 
 const btnPlay = document.getElementById('btn-play');
 const btnStop = document.getElementById('btn-stop');
@@ -98,7 +101,7 @@ function renderKeyframes() {
     if (Math.abs(state.currentTime - kf.time) < 0.15) {
       diamond.classList.add('active');
     }
-    
+
     diamond.addEventListener('click', (e) => {
       e.stopPropagation();
       seekToTime(kf.time);
@@ -163,7 +166,7 @@ function evaluateTimeline(time) {
     if (time >= kf1.time && time <= kf2.time) {
       const segmentDuration = kf2.time - kf1.time;
       let progress = (time - kf1.time) / segmentDuration;
-      
+
       // Apply Easing (Interpolation curve)
       progress = applyEasing(progress, state.easing);
 
@@ -223,6 +226,7 @@ function deleteKeyframeAt(time) {
 // Animation Loop (Playback)
 let animationFrameId = null;
 let lastTimestamp = null;
+let renderAccumulator = 0;
 
 function playLoop(timestamp) {
   if (!state.isPlaying) return;
@@ -231,12 +235,36 @@ function playLoop(timestamp) {
   const delta = (timestamp - lastTimestamp) / 1000;
   lastTimestamp = timestamp;
 
+  // 1. Advance real-time playback and maintain looping
   let newTime = state.currentTime + delta;
-  if (newTime > state.duration) {
+  if (newTime >= state.duration) {
     newTime = 0; // Loop playback
+    renderAccumulator = 0;
   }
 
-  seekToTime(newTime);
+  const frameInterval = 1 / state.fps;
+
+  // 2. Significant browser delay / suspension check (> 0.25s)
+  if (delta > 0.25) {
+    // Drop missed frames without catch-up burst and render immediately at current time
+    renderAccumulator = 0;
+    seekToTime(newTime);
+  } else {
+    // 3. Normal frame pacing while preserving fractional remainder
+    renderAccumulator += delta;
+
+    if (renderAccumulator >= frameInterval) {
+      renderAccumulator -= frameInterval;
+      if (renderAccumulator > frameInterval) {
+        renderAccumulator = 0;
+      }
+      seekToTime(newTime);
+    } else {
+      // Time advances internally without triggering unnecessary DOM/render work
+      state.currentTime = newTime;
+    }
+  }
+
   animationFrameId = requestAnimationFrame(playLoop);
 }
 
@@ -247,12 +275,15 @@ function togglePlay() {
     btnPlay.classList.remove('primary');
     btnPlay.classList.add('accent');
     lastTimestamp = null;
+    renderAccumulator = 0;
     animationFrameId = requestAnimationFrame(playLoop);
   } else {
     btnPlay.textContent = '▶ تشغيل (Play)';
     btnPlay.classList.add('primary');
     btnPlay.classList.remove('accent');
     cancelAnimationFrame(animationFrameId);
+    lastTimestamp = null;
+    renderAccumulator = 0;
   }
 }
 
@@ -262,6 +293,8 @@ function stopPlay() {
   btnPlay.classList.add('primary');
   btnPlay.classList.remove('accent');
   cancelAnimationFrame(animationFrameId);
+  lastTimestamp = null;
+  renderAccumulator = 0;
   seekToTime(0);
 }
 
@@ -313,7 +346,7 @@ btnAddKeyframe.addEventListener('click', () => {
 
   const existingIndex = state.keyframes.findIndex(k => Math.abs(k.time - state.currentTime) < 0.15);
   const targetTime = existingIndex >= 0 ? state.keyframes[existingIndex].time : Number(state.currentTime.toFixed(2));
-  
+
   const newKf = {
     time: targetTime,
     posX: state.posX,
@@ -347,9 +380,61 @@ btnAddKeyframe.addEventListener('click', () => {
   }, 1200);
 });
 
+// ==========================================================
+// Preview Native Fullscreen System (YouTube-style Fullscreen API)
+// ==========================================================
+function toggleFullscreenPreview() {
+  if (!document.fullscreenElement) {
+    if (viewportEl.requestFullscreen) {
+      viewportEl.requestFullscreen().catch((err) => {
+        console.warn('Fullscreen request failed:', err);
+      });
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch((err) => {
+        console.warn('Exit fullscreen failed:', err);
+      });
+    }
+  }
+}
+
+// Automatic Synchronization on fullscreen change (Supports clicking button or pressing Escape)
+document.addEventListener('fullscreenchange', () => {
+  const isFullscreen = !!document.fullscreenElement;
+  if (isFullscreen) {
+    btnToggleFullscreen.innerHTML = '🗗 خروج من ملء الشاشة (Exit Fullscreen)';
+    btnToggleFullscreen.classList.add('active');
+    btnToggleFullscreen.setAttribute('aria-pressed', 'true');
+    btnToggleFullscreen.title = 'الخروج من وضع ملء الشاشة (Esc)';
+  } else {
+    btnToggleFullscreen.innerHTML = '⛶ ملء الشاشة (Fullscreen)';
+    btnToggleFullscreen.classList.remove('active');
+    btnToggleFullscreen.setAttribute('aria-pressed', 'false');
+    btnToggleFullscreen.title = 'عرض المعاينة بملء الشاشة بالكامل (Fullscreen)';
+  }
+});
+
+btnToggleFullscreen.addEventListener('click', toggleFullscreenPreview);
+
+// Grid Overlay Functionality
+function updateGridDisplay() {
+  if (state.gridVisible) {
+    grid.classList.add('visible');
+    btnToggleGrid.classList.add('active');
+    btnToggleGrid.setAttribute('aria-pressed', 'true');
+    btnToggleGrid.title = 'إخفاء شبكة المحاذاة';
+  } else {
+    grid.classList.remove('visible');
+    btnToggleGrid.classList.remove('active');
+    btnToggleGrid.setAttribute('aria-pressed', 'false');
+    btnToggleGrid.title = 'إظهار شبكة المحاذاة';
+  }
+}
+
 btnToggleGrid.addEventListener('click', () => {
   state.gridVisible = !state.gridVisible;
-  grid.style.display = state.gridVisible ? 'block' : 'none';
+  updateGridDisplay();
 });
 
 btnReset.addEventListener('click', () => {
@@ -367,6 +452,7 @@ btnReset.addEventListener('click', () => {
 // Change Frame Rate (FPS)
 selectFps.addEventListener('change', (e) => {
   state.fps = Number(e.target.value);
+  renderAccumulator = 0;
   seekToTime(state.currentTime); // Recalculate timecode with new FPS
 });
 
@@ -390,7 +476,7 @@ function handleTimelineScrub(e) {
 timelineTrack.addEventListener('mousedown', (e) => {
   // If clicking on a keyframe diamond, let diamond handle it
   if (e.target.classList.contains('keyframe-diamond')) return;
-  
+
   isDraggingTimeline = true;
   if (state.isPlaying) togglePlay(); // Pause playback while scrubbing
   handleTimelineScrub(e);
@@ -426,8 +512,69 @@ window.addEventListener('mouseup', () => {
   }
 });
 
+// ==========================================================
+// Navigation & Tab Switching System
+// ==========================================================
+const navTabs = document.querySelectorAll('.nav-tab');
+const tabPanes = document.querySelectorAll('.tab-pane');
+
+navTabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    const targetTabId = tab.getAttribute('data-tab');
+    if (!targetTabId) return;
+
+    // If leaving Animation Lab while playing, safely auto-pause playback
+    if (targetTabId !== 'tab-animation' && state.isPlaying) {
+      togglePlay(); // Uses existing playback toggle to pause cleanly
+    }
+
+    // Update active tab buttons
+    navTabs.forEach((t) => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    // Update active tab panels
+    tabPanes.forEach((pane) => {
+      if (pane.id === targetTabId) {
+        pane.classList.add('active');
+        pane.removeAttribute('hidden');
+      } else {
+        pane.classList.remove('active');
+        pane.setAttribute('hidden', '');
+      }
+    });
+  });
+});
+
+// ==========================================================
+// Keyboard Shortcuts System (Space to Play/Pause in Normal & Fullscreen)
+// ==========================================================
+window.addEventListener('keydown', (e) => {
+  // Support both e.code === 'Space' and e.key === ' '
+  if (e.code === 'Space' || e.key === ' ') {
+    // Check if user is typing or interacting with an editable/interactive control
+    const activeEl = document.activeElement;
+    const tagName = activeEl ? activeEl.tagName.toUpperCase() : '';
+    const isInteractive = 
+      tagName === 'INPUT' || 
+      tagName === 'TEXTAREA' || 
+      tagName === 'SELECT' || 
+      tagName === 'BUTTON' || 
+      (activeEl && activeEl.isContentEditable);
+
+    // If focused on an interactive form control, allow native behavior (e.g. typing or activating button)
+    if (isInteractive) return;
+
+    // Prevent default browser scrolling
+    e.preventDefault();
+
+    // Toggle Play/Pause seamlessly across normal view and native fullscreen
+    togglePlay();
+  }
+});
+
 // Initial Setup
 bgLayer.className = 'comp-layer background-layer bg-studio';
+updateGridDisplay();
 updateViewport();
 renderKeyframes();
 seekToTime(0);

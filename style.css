@@ -263,6 +263,31 @@ select:focus {
   position: relative;
   overflow: hidden;
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+}
+
+/* Native Browser Fullscreen Mode (:fullscreen) for Viewport */
+#viewport:fullscreen,
+.viewport-container:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: #0b0b0e !important;
+  box-shadow: none !important;
+}
+
+#viewport:fullscreen .background-layer,
+.viewport-container:fullscreen .background-layer {
+  inset: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+#viewport:fullscreen .grid-overlay,
+.viewport-container:fullscreen .grid-overlay {
+  inset: 0 !important;
 }
 
 /* Grid Overlay */
@@ -270,10 +295,25 @@ select:focus {
   position: absolute;
   inset: 0;
   background-size: 25px 25px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
   pointer-events: none;
+  z-index: 5;
+  display: none; /* Hidden by default until enabled */
+}
+
+.grid-overlay.visible {
+  display: block;
+}
+
+/* Active state for Grid toggle button */
+.btn-sm.active {
+  background-color: var(--ae-purple);
+  color: #121214;
+  border-color: var(--ae-purple);
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(153, 153, 255, 0.4);
 }
 
 .monitor-actions {
@@ -310,10 +350,10 @@ select:focus {
 /* 2. Alpha Transparency Checkerboard */
 .background-layer.bg-checkerboard {
   background-color: #1e1e24;
-  background-image: 
-    linear-gradient(45deg, #15151a 25%, transparent 25%), 
-    linear-gradient(-45deg, #15151a 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #15151a 75%), 
+  background-image:
+    linear-gradient(45deg, #15151a 25%, transparent 25%),
+    linear-gradient(-45deg, #15151a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #15151a 75%),
     linear-gradient(-45deg, transparent 75%, #15151a 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
@@ -412,7 +452,8 @@ select:focus {
   margin: 0 8px 8px 8px;
   padding: 10px 14px;
   gap: 8px;
-  direction: ltr; /* Always LTR like video editors */
+  direction: ltr;
+  /* Always LTR like video editors */
 }
 
 .timeline-toolbar {
@@ -584,6 +625,96 @@ select:focus {
 }
 
 /* ==========================================================
+   NAVIGATION TABS & MULTI-TAB ARCHITECTURE
+   ========================================================== */
+
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-darkest);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.nav-tab {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cairo', sans-serif;
+}
+
+.nav-tab:hover {
+  color: var(--text-main);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.nav-tab.active {
+  background-color: var(--ae-purple);
+  color: #121214;
+  box-shadow: 0 2px 8px rgba(153, 153, 255, 0.3);
+}
+
+.tab-pane {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tab-pane.active {
+  display: flex;
+}
+
+/* Theory Placeholder Styling */
+.theory-placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--bg-darkest);
+}
+
+.placeholder-card {
+  background-color: var(--bg-dark);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+}
+
+.placeholder-card h2 {
+  font-size: 1.2rem;
+  color: var(--ae-purple);
+}
+
+.placeholder-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ==========================================================
    MOBILE & TABLET RESPONSIVE FIXES (Targeted Media Queries)
    Preserves Desktop layout at >= 900px, 1366px, etc.
    Optimized for 768px (Tablets), 390px, and 360px (Mobiles)
@@ -716,4 +847,3 @@ select:focus {
     height: 240px;
   }
 }
-
