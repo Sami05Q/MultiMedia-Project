@@ -28,6 +28,9 @@
 
       <!-- Navigation Tabs -->
       <nav class="nav-tabs" aria-label="أقسام المنصة">
+        <button type="button" class="nav-tab" data-tab="tab-media">
+          <span class="nav-tab-icon">🎛️</span> مختبر الوسائط (Media Lab)
+        </button>
         <button type="button" class="nav-tab active" data-tab="tab-animation">
           <span class="nav-tab-icon">🎬</span> مختبر التحريك (Animation Lab)
         </button>
@@ -35,202 +38,949 @@
           <span class="nav-tab-icon">📚</span> المفاهيم والنظريات (Theory Hub)
         </button>
       </nav>
-
-      <div class="project-info">
-        <span class="tag">إعداد الطالب: سامي</span>
-        <span class="tag tag-accent">Interactive Prototype v1.0</span>
-      </div>
     </header>
 
-      <!-- Tab 1: Animation Lab (Preserves All Existing Elements & IDs) -->
-      <section id="tab-animation" class="tab-pane active" aria-labelledby="tab-animation-btn">
-        <!-- Main Workspace -->
-        <main class="workspace">
-          <!-- Sidebar Controls: Properties & Transform -->
-          <aside class="panel controls-panel">
-            <div class="panel-header">
-              <h3>خصائص التحريك (Transform)</h3>
-              <span class="badge">Layer 1</span>
-            </div>
+    <!-- Tab 1: Animation Lab (Preserves All Existing Elements & IDs) -->
+    <section id="tab-animation" class="tab-pane active" aria-labelledby="tab-animation-btn">
+      <!-- Main Workspace -->
+      <main class="workspace">
+        <!-- Sidebar Controls: Properties & Transform -->
+        <aside class="panel controls-panel">
+          <div class="panel-header">
+            <h3>خصائص التحريك (Transform)</h3>
+            <span class="badge">Layer 1</span>
+          </div>
 
-            <div class="control-group">
-              <label>الموقع السيني (Position X): <span id="val-pos-x">200px</span></label>
-              <input type="range" id="slider-pos-x" min="40" max="500" value="200">
-            </div>
+          <div class="control-group">
+            <label>الموقع السيني (Position X): <span id="val-pos-x">200px</span></label>
+            <input type="range" id="slider-pos-x" min="40" max="500" value="200">
+          </div>
 
-            <div class="control-group">
-              <label>الموقع الصادي (Position Y): <span id="val-pos-y">150px</span></label>
-              <input type="range" id="slider-pos-y" min="40" max="260" value="150">
-            </div>
+          <div class="control-group">
+            <label>الموقع الصادي (Position Y): <span id="val-pos-y">150px</span></label>
+            <input type="range" id="slider-pos-y" min="40" max="260" value="150">
+          </div>
 
-            <div class="control-group">
-              <label>الحجم (Scale): <span id="val-scale">100%</span></label>
-              <input type="range" id="slider-scale" min="20" max="250" value="100">
-            </div>
+          <div class="control-group">
+            <label>الحجم (Scale): <span id="val-scale">100%</span></label>
+            <input type="range" id="slider-scale" min="20" max="250" value="100">
+          </div>
 
-            <div class="control-group">
-              <label>الدوران (Rotation): <span id="val-rot">0°</span></label>
-              <input type="range" id="slider-rot" min="0" max="360" value="0">
-            </div>
+          <div class="control-group">
+            <label>الدوران (Rotation): <span id="val-rot">0°</span></label>
+            <input type="range" id="slider-rot" min="0" max="360" value="0">
+          </div>
 
-            <div class="control-group">
-              <label>الشفافية (Opacity): <span id="val-opacity">100%</span></label>
-              <input type="range" id="slider-opacity" min="0" max="100" value="100">
-            </div>
+          <div class="control-group">
+            <label>الشفافية (Opacity): <span id="val-opacity">100%</span></label>
+            <input type="range" id="slider-opacity" min="0" max="100" value="100">
+          </div>
 
-            <div class="panel-divider"></div>
+          <div class="panel-divider"></div>
 
-            <!-- Multimedia Theoretical Concepts: Blending Modes -->
-            <div class="panel-header">
-              <h3>نمط الدمج (Blend Mode)</h3>
+          <!-- Multimedia Theoretical Concepts: Blending Modes -->
+          <div class="panel-header">
+            <h3>نمط الدمج (Blend Mode)</h3>
+          </div>
+          <div class="control-group">
+            <label for="select-blend-mode">خوارزمية دمج البكسلات:</label>
+            <select id="select-blend-mode">
+              <option value="normal">Normal (عادي)</option>
+              <option value="multiply">Multiply (ضرب البكسلات - عزل الفواتح)</option>
+              <option value="screen">Screen (شاشة - عزل الغوامق)</option>
+              <option value="overlay">Overlay (تراكب التباين)</option>
+              <option value="difference">Difference (فرق القيم اللونية)</option>
+            </select>
+          </div>
+          <p class="hint-text" id="blend-explanation">
+            النمط الحالي: <strong>Normal</strong> (لا يوجد معالجة رياضية للألوان).
+          </p>
+
+          <div class="panel-divider"></div>
+
+          <div class="control-group">
+            <label>دالة التسارع (Easing Curve):</label>
+            <select id="select-easing">
+              <option value="linear">Linear (حركة خطية منتظمة)</option>
+              <option value="ease-in-out">Easy Ease (تسارع وتباطؤ ناعم)</option>
+              <option value="ease-in">Ease In (بداية بطيئة)</option>
+              <option value="ease-out">Ease Out (نهاية ناعمة)</option>
+            </select>
+          </div>
+        </aside>
+
+        <!-- Center Stage: Viewport / Monitor -->
+        <section class="panel monitor-panel">
+          <div class="panel-header monitor-header">
+            <div class="viewport-title">
+              <span class="dot live-dot"></span>
+              <span>Composition (1920x1080 Full HD Preview)</span>
             </div>
-            <div class="control-group">
-              <label for="select-blend-mode">خوارزمية دمج البكسلات:</label>
-              <select id="select-blend-mode">
-                <option value="normal">Normal (عادي)</option>
-                <option value="multiply">Multiply (ضرب البكسلات - عزل الفواتح)</option>
-                <option value="screen">Screen (شاشة - عزل الغوامق)</option>
-                <option value="overlay">Overlay (تراكب التباين)</option>
-                <option value="difference">Difference (فرق القيم اللونية)</option>
+            <div class="monitor-actions">
+              <!-- Fullscreen Toggle Button (YouTube-style Fullscreen API) -->
+              <button type="button" id="btn-toggle-maximize" class="btn-sm"
+                title="عرض المعاينة بملء الشاشة بالكامل (Fullscreen)">
+                ⛶ ملء الشاشة (Fullscreen)
+              </button>
+
+              <!-- Background Selector -->
+              <div class="bg-mode-selector">
+                <label for="select-bg-mode">الخلفية:</label>
+                <select id="select-bg-mode" class="select-compact">
+                  <option value="studio" selected>Dark Studio (داكن احترافي)</option>
+                  <option value="checkerboard">Alpha Grid (شفافية)</option>
+                  <option value="gradient">Sample Artwork (تدرج للدمج)</option>
+                </select>
+              </div>
+              <button id="btn-toggle-grid" class="btn-sm">شبكة المحاذاة (Grid)</button>
+              <button id="btn-reset" class="btn-sm btn-danger">إعادة ضبط</button>
+            </div>
+          </div>
+
+          <!-- Render Viewport -->
+          <div class="viewport-container" id="viewport">
+            <div class="grid-overlay" id="grid"></div>
+
+            <!-- Background Base Layer (Texture / Background) -->
+            <div class="comp-layer background-layer"></div>
+
+            <!-- Animated Target Layer -->
+            <div class="comp-layer animated-object" id="anim-target">
+              <div class="target-content">
+                <div class="inner-icon">Ae</div>
+                <span>Layer 1</span>
+              </div>
+              <!-- Anchor point indicator -->
+              <div class="anchor-point"></div>
+            </div>
+          </div>
+
+          <!-- Explanation info banner for professor -->
+          <div class="concept-card">
+            <div class="concept-icon">💡</div>
+            <div class="concept-body">
+              <h4>ماذا يحدث في هذا المحاكي؟</h4>
+              <p>
+                يقوم هذا النموذج بمحاكاة عمليات تحريك الرسوميات (Spatial & Temporal Interpolation) المستخدمة في برنامج
+                After Effects. يتم هنا حساب الإحداثيات والزوايا برمجياً وتطبيق الـ Keyframes والـ Blending Modes
+                بلحظتها
+                (Real-time Rendering).
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Bottom Panel: Interactive Timeline -->
+      <footer class="panel timeline-panel">
+        <div class="timeline-toolbar">
+          <div class="playback-controls">
+            <button id="btn-play" class="btn-control primary">▶ تشغيل (Play)</button>
+            <button id="btn-stop" class="btn-control">↺ إعادة</button>
+            <button id="btn-add-keyframe" class="btn-control accent">+ إضافة Keyframe</button>
+            <button id="btn-del-keyframe" class="btn-control btn-danger-action" title="حذف الكي فريم المحدد">🗑 حذف
+              Keyframe</button>
+          </div>
+
+          <div class="timeline-meta">
+            <!-- Frame Rate Selector -->
+            <div class="fps-selector">
+              <label for="select-fps">معدل الإطارات (FPS):</label>
+              <select id="select-fps" class="select-compact">
+                <option value="24">24 FPS (سينمائي)</option>
+                <option value="30" selected>30 FPS (قياسي)</option>
+                <option value="60">60 FPS (سلس)</option>
               </select>
             </div>
-            <p class="hint-text" id="blend-explanation">
-              النمط الحالي: <strong>Normal</strong> (لا يوجد معالجة رياضية للألوان).
-            </p>
 
-            <div class="panel-divider"></div>
+            <div class="timecode-display">
+              <span class="label">Timecode:</span>
+              <span id="timecode" class="mono">00:00:00</span>
+            </div>
+          </div>
+        </div>
 
-            <div class="control-group">
-              <label>دالة التسارع (Easing Curve):</label>
-              <select id="select-easing">
-                <option value="linear">Linear (حركة خطية منتظمة)</option>
-                <option value="ease-in-out">Easy Ease (تسارع وتباطؤ ناعم)</option>
-                <option value="ease-in">Ease In (بداية بطيئة)</option>
-                <option value="ease-out">Ease Out (نهاية ناعمة)</option>
-              </select>
+        <!-- Scrubber & Ruler Track -->
+        <div class="timeline-track-wrapper">
+          <div class="timeline-ruler" id="ruler">
+            <span>0s</span><span>1s</span><span>2s</span><span>3s</span><span>4s</span><span>5s</span>
+          </div>
+
+          <div class="timeline-track" id="timeline-track">
+            <!-- Playhead (Scrubber needle) -->
+            <div class="playhead" id="playhead">
+              <div class="playhead-head"></div>
+              <div class="playhead-line"></div>
+            </div>
+
+            <!-- Keyframe indicators will be dynamically injected here -->
+            <div class="keyframes-container" id="keyframes-container"></div>
+          </div>
+        </div>
+      </footer>
+    </section>
+
+    <!-- Tab 2: Media Lab (Unified Multimedia Composition Workspace) -->
+    <section id="tab-media" class="tab-pane" aria-labelledby="tab-media-btn" hidden>
+      <div class="media-lab-container">
+
+        <!-- 1. Dedicated Add-Layer Toolbar (Standard File Imports Only - No Drag & Drop) -->
+        <header class="media-toolbar">
+          <div class="media-toolbar-group">
+            <span class="toolbar-label">إضافة وسائط للتركيب (Add Layers):</span>
+            <button type="button" class="btn-sm btn-layer-add" id="btn-add-text-layer">
+              <span>📝</span> + نص (Text)
+            </button>
+            <button type="button" class="btn-sm btn-layer-add" id="btn-add-image-layer">
+              <span>🖼️</span> + صورة (Image)
+            </button>
+            <button type="button" class="btn-sm btn-layer-add" id="btn-add-video-layer">
+              <span>🎬</span> + فيديو (Video)
+            </button>
+            <button type="button" class="btn-sm btn-layer-add" id="btn-add-audio-layer">
+              <span>🎵</span> + صوت (Audio)
+            </button>
+
+            <!-- Hidden Standard File Inputs (No Drag & Drop) -->
+            <input type="file" id="image-file-input" accept="image/*" hidden>
+            <input type="file" id="video-file-input" accept="video/*" hidden>
+            <input type="file" id="audio-file-input" accept="audio/*" hidden>
+          </div>
+
+          <div class="media-toolbar-meta">
+            <span class="media-badge">بيئة التركيب الموحدة (Unified Composition)</span>
+          </div>
+        </header>
+
+        <!-- 2. Main Workspace Area: Properties Panel (Left) & Composition Preview (Right) -->
+        <div class="media-workspace">
+
+          <!-- Properties Panel (Context-Sensitive Inspector) -->
+          <aside class="panel media-properties-panel" id="media-properties-panel">
+            <div class="panel-header">
+              <div class="props-title-group">
+                <h3 id="props-panel-title">خصائص الوسيط (Properties)</h3>
+                <span class="badge" id="props-layer-type-badge">نص (Text)</span>
+              </div>
+              <button type="button" class="btn-delete-layer" id="btn-delete-active-layer"
+                title="حذف الطبقة المحددة من التركيب">🗑️ حذف الطبقة</button>
+            </div>
+
+            <div class="properties-content-wrapper">
+              <!-- Empty State / No Layer Selected -->
+              <div class="props-section" id="props-empty" style="display: none;">
+                <div class="empty-media-placeholder">
+                  <span>⚙️</span>
+                  <p>حدد طبقة من قائمة الطبقات بالأسفل أو أضف عنصراً جديداً لتعديل خصائصه.</p>
+                </div>
+              </div>
+
+              <!-- Text Properties Section -->
+              <div class="props-section active" id="props-text">
+                <div class="control-group">
+                  <label>موضع النص (Position):</label>
+                  <div class="position-inputs-row">
+                    <div class="pos-input-group">
+                      <span class="pos-axis-label">X:</span>
+                      <input type="number" id="prop-text-pos-x" class="custom-num-input" value="110">
+                      <span class="unit">px</span>
+                    </div>
+                    <div class="pos-input-group">
+                      <span class="pos-axis-label">Y:</span>
+                      <input type="number" id="prop-text-pos-y" class="custom-num-input" value="135">
+                      <span class="unit">px</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <label>محتوى النص (Text Content):</label>
+                  <textarea id="text-input" rows="3" class="custom-textarea"
+                    placeholder="اكتب نصاً لإضافته إلى التركيب الموحد...">After Effects & Multimedia Computing Lab</textarea>
+                </div>
+                <div class="control-group">
+                  <label>حجم الخط (Font Size): <span id="val-text-size">32px</span></label>
+                  <input type="range" id="slider-text-size" min="14" max="72" value="32">
+                </div>
+                <div class="control-group">
+                  <label>تباعد الأحرف (Letter Spacing): <span id="val-text-spacing">1px</span></label>
+                  <input type="range" id="slider-text-spacing" min="-2" max="15" value="1">
+                </div>
+                <div class="control-group">
+                  <label>نوع الخط (Font Family):</label>
+                  <select id="select-font-family">
+                    <option value="'Cairo', sans-serif">Cairo (عربي حديث)</option>
+                    <option value="'JetBrains Mono', monospace">JetBrains Mono (برمجي أحادي المسافة)</option>
+                    <option value="sans-serif">System Sans-Serif</option>
+                    <option value="serif">Classic Serif</option>
+                  </select>
+                </div>
+                <div class="control-group">
+                  <label>لون الخط (Text Color):</label>
+                  <input type="color" id="picker-text-color" value="#00d2ff" class="custom-color-picker">
+                </div>
+
+                <div class="media-meta-card mt-3">
+                  <h4>بيانات النص الأكاديمية (Text Metrics):</h4>
+                  <div class="meta-stats-grid">
+                    <div class="stat-item"><span class="stat-label">عدد الأحرف:</span> <span id="text-char-count"
+                        class="mono">40</span></div>
+                    <div class="stat-item"><span class="stat-label">عدد الكلمات:</span> <span id="text-word-count"
+                        class="mono">5</span></div>
+                    <div class="stat-item"><span class="stat-label">حجم الذاكرة (UTF-8):</span> <span
+                        id="text-byte-size" class="mono">40 Bytes</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image Properties Section -->
+              <div class="props-section" id="props-image" style="display: none;">
+                <div class="control-group">
+                  <label>موضع الصورة (Position):</label>
+                  <div class="position-inputs-row">
+                    <div class="pos-input-group">
+                      <span class="pos-axis-label">X:</span>
+                      <input type="number" id="prop-img-pos-x" class="custom-num-input" value="100">
+                      <span class="unit">px</span>
+                    </div>
+                    <div class="pos-input-group">
+                      <span class="pos-axis-label">Y:</span>
+                      <input type="number" id="prop-img-pos-y" class="custom-num-input" value="80">
+                      <span class="unit">px</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <label>استيراد / استبدال الصورة (File Upload):</label>
+                  <button type="button" class="btn-sm btn-control w-100" id="btn-browse-image">
+                    📁 اختيار ملف صورة من جهازك
+                  </button>
+                </div>
+                <div class="control-group mt-3">
+                  <label>شفافية الصورة (Opacity): <span id="val-img-opacity">100%</span></label>
+                  <input type="range" id="slider-img-opacity" min="10" max="100" value="100">
+                </div>
+                <div class="control-group">
+                  <label>فلتر التدرج الرمادي (Grayscale Filter): <span id="val-img-gray">0%</span></label>
+                  <input type="range" id="slider-img-gray" min="0" max="100" value="0">
+                </div>
+
+                <div class="media-meta-card mt-3" id="image-meta-card">
+                  <h4>خصائص الصورة (Image Metadata):</h4>
+                  <div class="meta-stats-grid">
+                    <div class="stat-item"><span class="stat-label">الأبعاد:</span> <span id="img-meta-dim"
+                        class="mono">-- × --</span></div>
+                    <div class="stat-item"><span class="stat-label">نسبة العرض للارتفاع:</span> <span
+                        id="img-meta-ratio" class="mono">--</span></div>
+                    <div class="stat-item"><span class="stat-label">حجم الملف:</span> <span id="img-meta-size"
+                        class="mono">-- KB</span></div>
+                    <div class="stat-item"><span class="stat-label">النوع (MIME):</span> <span id="img-meta-type"
+                        class="mono">--</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Video Properties Section -->
+              <div class="props-section" id="props-video" style="display: none;">
+                <div class="control-group">
+                  <label>موضع الفيديو (Position):</label>
+                  <div class="position-inputs-row">
+                    <div class="pos-input-group">
+                      <span class="pos-axis-label">X:</span>
+                      <input type="number" id="prop-vid-pos-x" class="custom-num-input" value="40">
+                      <span class="unit">px</span>
+                    </div>
+                    <div class="pos-input-group">
+                      <span class="pos-axis-label">Y:</span>
+                      <input type="number" id="prop-vid-pos-y" class="custom-num-input" value="30">
+                      <span class="unit">px</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <label>استيراد / استبدال الفيديو (File Upload):</label>
+                  <button type="button" class="btn-sm btn-control w-100" id="btn-browse-video">
+                    🎬 اختيار ملف فيديو من جهازك
+                  </button>
+                </div>
+                <div class="control-group mt-3">
+                  <label>سرعة التشغيل (Playback Rate): <span id="val-vid-speed">1.0x</span></label>
+                  <select id="select-video-speed" class="select-compact">
+                    <option value="0.5">0.5x (حركة بطيئة)</option>
+                    <option value="1" selected>1.0x (سرعة طبيعية)</option>
+                    <option value="1.5">1.5x (سريع)</option>
+                    <option value="2">2.0x (مضاعف)</option>
+                  </select>
+                </div>
+
+                <div class="media-meta-card mt-3">
+                  <h4>بيانات الفيديو (Video Metadata):</h4>
+                  <div class="meta-stats-grid">
+                    <div class="stat-item"><span class="stat-label">الدقة (Resolution):</span> <span id="vid-meta-res"
+                        class="mono">-- × --</span></div>
+                    <div class="stat-item"><span class="stat-label">المدة الزمنية:</span> <span id="vid-meta-dur"
+                        class="mono">--s</span></div>
+                    <div class="stat-item"><span class="stat-label">حجم الملف:</span> <span id="vid-meta-size"
+                        class="mono">-- MB</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Audio Properties Section -->
+              <div class="props-section" id="props-audio" style="display: none;">
+                <div class="control-group">
+                  <label>استيراد / استبدال الصوت (File Upload):</label>
+                  <button type="button" class="btn-sm btn-control w-100" id="btn-browse-audio">
+                    🎵 اختيار ملف صوتي من جهازك
+                  </button>
+                </div>
+
+                <div class="media-meta-card mt-3">
+                  <h4>بيانات الصوت (Audio Metadata):</h4>
+                  <div class="meta-stats-grid">
+                    <div class="stat-item"><span class="stat-label">اسم الملف:</span> <span id="aud-meta-name"
+                        class="mono">--</span></div>
+                    <div class="stat-item"><span class="stat-label">المدة (Duration):</span> <span id="aud-meta-dur"
+                        class="mono">--s</span></div>
+                    <div class="stat-item"><span class="stat-label">حجم الملف:</span> <span id="aud-meta-size"
+                        class="mono">-- KB</span></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </aside>
 
-          <!-- Center Stage: Viewport / Monitor -->
-          <section class="panel monitor-panel">
-            <div class="panel-header monitor-header">
-              <div class="viewport-title">
-                <span class="dot live-dot"></span>
-                <span>Composition 1 (1920x1080 Full HD Preview)</span>
+          <!-- Composition Preview Panel (Shared Canvas) -->
+          <main class="panel media-preview-panel">
+            <div class="panel-header">
+              <div class="comp-header-title">
+                <h3>Composition</h3>
+                <!---------------------------------------------------------------------
+                -----------------------------------------------------------------------
+                ----------------------------------------------------------------------->
               </div>
-              <div class="monitor-actions">
-                <!-- Fullscreen Toggle Button (YouTube-style Fullscreen API) -->
-                <button type="button" id="btn-toggle-maximize" class="btn-sm" title="عرض المعاينة بملء الشاشة بالكامل (Fullscreen)">
-                  ⛶ ملء الشاشة (Fullscreen)
+              <div class="comp-canvas-info">
+                <span class="text-muted font-sm">كافة الطبقات المرئية تتراكب داخل شاشة عرض واحدة</span>
+              </div>
+            </div>
+
+            <div class="media-stage-wrapper">
+              <!-- Shared Composition Canvas Stage -->
+              <div class="media-comp-canvas" id="media-comp-canvas">
+                <!-- Dynamic Visual Layers Container -->
+                <div id="media-canvas-elements" class="canvas-elements-container"></div>
+
+                <!-- Hidden Dynamic Audio Elements Container -->
+                <div id="media-audio-elements" style="display: none;"></div>
+
+                <!-- Empty Canvas Placeholder (Shown when all layers are hidden/cleared) -->
+                <div class="empty-media-placeholder" id="comp-empty-placeholder" style="display: none;">
+                  <span>🎬</span>
+                  <p>لا توجد طبقات مضافة للتركيب</p>
+                  <span class="upload-hint">استخدم أزرار إضافة الطبقات بالأعلى لبدء التركيب</span>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <!-- 3. Dedicated Layers Panel (Left Column in RTL) -->
+          <aside class="panel media-layers-panel" id="media-layers-panel">
+            <div class="panel-header">
+              <div class="layers-header-title">
+                <h3>قائمة الطبقات (Layers)</h3>
+                <span class="badge" id="comp-layer-count-badge">0 طبقات</span>
+              </div>
+            </div>
+            <!-- Layers Stack List Container (Dynamically Rendered in Reverse Order) -->
+            <div class="media-layers-list" id="media-layers-list"></div>
+          </aside>
+        </div>
+
+        <!-- 3. Timeline & Playback Track (Bottom) -->
+        <footer class="panel media-timeline-panel">
+          <div class="panel-header media-timeline-header">
+            <div class="timeline-header-left">
+              <h3>مسار العرض الزمني (Timeline)</h3>
+              <div class="media-transport-controls">
+                <button type="button" class="btn-sm btn-control accent" id="btn-comp-play" title="تشغيل التركيب الموحد">
+                  ▶ تشغيل
                 </button>
-
-                <!-- Background Selector -->
-                <div class="bg-mode-selector">
-                  <label for="select-bg-mode">الخلفية:</label>
-                  <select id="select-bg-mode" class="select-compact">
-                    <option value="studio" selected>Dark Studio (داكن احترافي)</option>
-                    <option value="checkerboard">Alpha Grid (شفافية)</option>
-                    <option value="gradient">Sample Artwork (تدرج للدمج)</option>
-                  </select>
-                </div>
-                <button id="btn-toggle-grid" class="btn-sm">شبكة المحاذاة (Grid)</button>
-                <button id="btn-reset" class="btn-sm btn-danger">إعادة ضبط</button>
+                <button type="button" class="btn-sm btn-control" id="btn-comp-stop" title="إيقاف">
+                  ↺ إعادة
+                </button>
               </div>
-            </div>
-
-            <!-- Render Viewport -->
-            <div class="viewport-container" id="viewport">
-              <div class="grid-overlay" id="grid"></div>
-
-              <!-- Background Base Layer (Texture / Background) -->
-              <div class="comp-layer background-layer"></div>
-
-              <!-- Animated Target Layer -->
-              <div class="comp-layer animated-object" id="anim-target">
-                <div class="target-content">
-                  <div class="inner-icon">Ae</div>
-                  <span>Layer 1</span>
-                </div>
-                <!-- Anchor point indicator -->
-                <div class="anchor-point"></div>
-              </div>
-            </div>
-
-            <!-- Explanation info banner for professor -->
-            <div class="concept-card">
-              <div class="concept-icon">💡</div>
-              <div class="concept-body">
-                <h4>ماذا يحدث في هذا المحاكي؟</h4>
-                <p>
-                  يقوم هذا النموذج بمحاكاة عمليات تحريك الرسوميات (Spatial & Temporal Interpolation) المستخدمة في برنامج
-                  After Effects. يتم هنا حساب الإحداثيات والزوايا برمجياً وتطبيق الـ Keyframes والـ Blending Modes
-                  بلحظتها
-                  (Real-time Rendering).
-                </p>
-              </div>
-            </div>
-          </section>
-        </main>
-
-        <!-- Bottom Panel: Interactive Timeline -->
-        <footer class="panel timeline-panel">
-          <div class="timeline-toolbar">
-            <div class="playback-controls">
-              <button id="btn-play" class="btn-control primary">▶ تشغيل (Play)</button>
-              <button id="btn-stop" class="btn-control">⏹ إيقاف</button>
-              <button id="btn-add-keyframe" class="btn-control accent">+ إضافة Keyframe</button>
-              <button id="btn-del-keyframe" class="btn-control btn-danger-action" title="حذف الكي فريم المحدد">🗑 حذف
-                Keyframe</button>
-            </div>
-
-            <div class="timeline-meta">
-              <!-- Frame Rate Selector -->
-              <div class="fps-selector">
-                <label for="select-fps">معدل الإطارات (FPS):</label>
-                <select id="select-fps" class="select-compact">
-                  <option value="24">24 FPS (سينمائي)</option>
-                  <option value="30" selected>30 FPS (قياسي)</option>
-                  <option value="60">60 FPS (سلس)</option>
-                </select>
-              </div>
-
               <div class="timecode-display">
-                <span class="label">Timecode:</span>
-                <span id="timecode" class="mono">00:00:00</span>
+                <span class="mono" id="comp-timecode">00:00 / 05:00</span>
               </div>
-            </div>
-          </div>
-
-          <!-- Scrubber & Ruler Track -->
-          <div class="timeline-track-wrapper">
-            <div class="timeline-ruler" id="ruler">
-              <span>0s</span><span>1s</span><span>2s</span><span>3s</span><span>4s</span><span>5s</span>
-            </div>
-
-            <div class="timeline-track" id="timeline-track">
-              <!-- Playhead (Scrubber needle) -->
-              <div class="playhead" id="playhead">
-                <div class="playhead-head"></div>
-                <div class="playhead-line"></div>
-              </div>
-
-              <!-- Keyframe indicators will be dynamically injected here -->
-              <div class="keyframes-container" id="keyframes-container"></div>
             </div>
           </div>
         </footer>
-      </section>
 
-      <!-- Tab 2: Theory & Knowledge Hub (Placeholder container for next step) -->
-      <section id="tab-theory" class="tab-pane" aria-labelledby="tab-theory-btn" hidden>
-        <div class="theory-placeholder">
-          <div class="placeholder-card">
-            <span class="placeholder-icon">📚</span>
-            <h2>المفاهيم والنظريات (Theory & Knowledge Hub)</h2>
-            <p>سيتم إدراج المفاهيم التعليمية والعروض التوضيحية التفاعلية هنا في الخطوة التالية.</p>
+      </div>
+    </section>
+
+    <!-- Tab 3: Theory & Knowledge Hub (Interactive Concept Map & Lessons) -->
+    <section id="tab-theory" class="tab-pane" aria-labelledby="tab-theory-btn" hidden>
+      <div class="theory-hub-wrapper" id="theory-hub-wrapper">
+
+        <!-- VIEW 1: Interactive Radial Concept Map -->
+        <div class="theory-view active" id="theory-map-view">
+          <div class="theory-map-header">
+            <span class="theory-badge">خارطة المفاهيم التفاعلية (Interactive Concept Map)</span>
+            <h2>استكشف محاور الوسائط المتعددة (Multimedia Core Topics)</h2>
+            <p>انقر على أي محور للانتقال مباشرة إلى الدرس واستكشاف المفاهيم التفاعلية والمعادلات الرياضية.</p>
+          </div>
+
+          <!-- Concept Map Stage -->
+          <div class="concept-map-stage-wrapper">
+            <div class="concept-map-stage" id="concept-map-stage">
+              <!-- SVG Connector Lines (Centered from 50% 50% to outer nodes) -->
+              <svg class="concept-map-svg" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                  <linearGradient id="line-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#9999ff" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#00d2ff" stop-opacity="0.3" />
+                  </linearGradient>
+                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="glow" />
+                    <feMerge>
+                      <feMergeNode in="glow" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <!-- Lines from Center (300, 300) to Outer Nodes -->
+                <line class="map-connector connector-images" data-connector="images" x1="300" y1="300" x2="300"
+                  y2="85" />
+                <line class="map-connector connector-colors" data-connector="colors" x1="300" y1="300" x2="505"
+                  y2="235" />
+                <line class="map-connector connector-animation" data-connector="animation" x1="300" y1="300" x2="425"
+                  y2="495" />
+                <line class="map-connector connector-audio" data-connector="audio" x1="300" y1="300" x2="175"
+                  y2="495" />
+                <line class="map-connector connector-video" data-connector="video" x1="300" y1="300" x2="95" y2="235" />
+              </svg>
+
+              <!-- Center Node: Introduction to Multimedia (Complete Lesson) -->
+              <div class="concept-node node-center" data-topic="intro" role="button" tabindex="0"
+                title="انقر لفتح الدرس المكتمل: مقدمة في الوسائط المتعددة">
+                <div class="node-inner">
+                  <div class="node-icon">🌐</div>
+                  <h3 class="node-title">مقدمة في الوسائط المتعددة</h3>
+                  <span class="node-subtitle">Introduction to Multimedia</span>
+                  <span class="node-status-badge available">درس مكتمل ✓</span>
+                </div>
+                <div class="node-pulse-ring"></div>
+              </div>
+
+              <!-- Outer Node 1: Images & Pixels -->
+              <div class="concept-node node-outer node-pos-1" data-topic="images" role="button" tabindex="0"
+                title="الصور والبكسلات (Images & Pixels)">
+                <div class="node-inner">
+                  <div class="node-icon">🖼️</div>
+                  <h4 class="node-title">الصور والبكسلات</h4>
+                  <span class="node-subtitle">Images & Pixels</span>
+                  <span class="node-status-badge upcoming">قريباً</span>
+                </div>
+              </div>
+
+              <!-- Outer Node 2: Color Models (RGB) -->
+              <div class="concept-node node-outer node-pos-2" data-topic="colors" role="button" tabindex="0"
+                title="النماذج اللونية (Color Models)">
+                <div class="node-inner">
+                  <div class="node-icon">🎨</div>
+                  <h4 class="node-title">النماذج اللونية</h4>
+                  <span class="node-subtitle">Color Models (RGB)</span>
+                  <span class="node-status-badge upcoming">قريباً</span>
+                </div>
+              </div>
+
+              <!-- Outer Node 3: Animation Fundamentals -->
+              <div class="concept-node node-outer node-pos-3" data-topic="animation" role="button" tabindex="0"
+                title="أساسيات التحريك (Animation Fundamentals)">
+                <div class="node-inner">
+                  <div class="node-icon">🎬</div>
+                  <h4 class="node-title">أساسيات التحريك</h4>
+                  <span class="node-subtitle">Animation Fundamentals</span>
+                  <span class="node-status-badge upcoming">قريباً</span>
+                </div>
+              </div>
+
+              <!-- Outer Node 4: Digital Audio -->
+              <div class="concept-node node-outer node-pos-4" data-topic="audio" role="button" tabindex="0"
+                title="الصوت الرقمي (Digital Audio)">
+                <div class="node-inner">
+                  <div class="node-icon">🎵</div>
+                  <h4 class="node-title">الصوت الرقمي</h4>
+                  <span class="node-subtitle">Digital Audio</span>
+                  <span class="node-status-badge upcoming">قريباً</span>
+                </div>
+              </div>
+
+              <!-- Outer Node 5: Digital Video -->
+              <div class="concept-node node-outer node-pos-5" data-topic="video" role="button" tabindex="0"
+                title="الفيديو الرقمي (Digital Video)">
+                <div class="node-inner">
+                  <div class="node-icon">🎥</div>
+                  <h4 class="node-title">الفيديو الرقمي</h4>
+                  <span class="node-subtitle">Digital Video</span>
+                  <span class="node-status-badge upcoming">قريباً</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+
+        <!-- VIEW 2: Lesson View Container -->
+        <div class="theory-view" id="theory-lesson-view">
+          <!-- Lesson Top Toolbar -->
+          <div class="theory-lesson-toolbar">
+            <button type="button" class="btn-sm btn-theory-back" id="btn-theory-back">
+              <span>←</span> العودة إلى خريطة المفاهيم (Back to Topics)
+            </button>
+            <div class="theory-breadcrumb">
+              <span>المفاهيم والنظريات</span>
+              <span class="breadcrumb-sep">/</span>
+              <span id="theory-current-topic-label" class="breadcrumb-current">مقدمة في الوسائط المتعددة</span>
+            </div>
+          </div>
+
+          <!-- FULL LESSON: Introduction to Multimedia -->
+          <article class="theory-lesson-content" id="lesson-intro">
+            <!-- Lesson Hero -->
+            <header class="lesson-header">
+              <div class="lesson-header-badge">الدرس الأول • الوحدة التأسيسية</div>
+              <h1 class="lesson-main-title">مقدمة في الوسائط المتعددة (Introduction to Multimedia)</h1>
+              <p class="lesson-lead">
+                فهم المفهوم الجوهري للوسائط المتعددة، عناصرها الخمسة المتكاملة، وتطبيقاتها الحيوية في الحوسبة والتفاعل
+                الرقمي.
+              </p>
+            </header>
+
+            <!-- Section 1: What is Multimedia? -->
+            <section class="theory-section">
+              <div class="theory-section-header">
+                <span class="section-num">01</span>
+                <h2>ما هي الوسائط المتعددة؟ (What is Multimedia?)</h2>
+              </div>
+              <p>
+                تُعرّف <strong>الوسائط المتعددة (Multimedia)</strong> بأنها دمج وتكامل بين أنواع مختلفة من الوسائط
+                الرقمية — كالـنصوص، والصور، والأصوات، ومقاطع الفيديو، والرسوم المتحركة — ومعالجتها ونقلها والتحكم بها
+                بواسطة الحاسوب لتقديم رسالة أو فكرة بطريقة تفاعلية وجذابة.
+              </p>
+
+              <div class="theory-callout">
+                <div class="callout-icon">💡</div>
+                <div class="callout-body">
+                  <h4>مثال عملي توضيحي (Practical Example):</h4>
+                  <p>
+                    فيديو تعليمي على منصة رقمية؛ لا يقتصر على الصورة فقط، بل يدمج <strong>نصاً</strong> مكتوباً يشرح
+                    القانون، و<strong>صورة</strong> توضيحية ثلاثية الأبعاد، و<strong>تحريكاً (Animation)</strong> يمثل
+                    حركة الجزيئات، مع <strong>تعليق صوتي (Narration)</strong> يشرح الخطوات و<strong>موسيقى
+                      خلفية</strong> تعزز التركيز. هذا الاندماج هو جوهر الوسائط المتعددة.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 2: The Five Elements of Multimedia -->
+            <section class="theory-section">
+              <div class="theory-section-header">
+                <span class="section-num">02</span>
+                <h2>العناصر الخمسة للوسائط المتعددة (The 5 Elements)</h2>
+              </div>
+              <p>تتكون أي تجربة وسائط متعددة رقمية من توليفة تجمع عنصراً أو أكثر من العناصر الخمسة التالية:</p>
+
+              <div class="elements-grid">
+                <div class="element-card">
+                  <div class="element-icon-box">📝</div>
+                  <h3>1. النص (Text)</h3>
+                  <p>الركيزة الأساسية لتوصيل المعلومات الدقيقة والعناوين والشروحات المكتوبة، ويسهل البحث فيه وتخزينه
+                    بأحجام صغيرة.</p>
+                </div>
+
+                <div class="element-card">
+                  <div class="element-icon-box">🖼️</div>
+                  <h3>2. الصور (Images)</h3>
+                  <p>المحتوى البصري الثابت (سواء كانت صوراً نقطية Raster كالصور الفوتوغرافية أو متجهة Vector كالرسوم
+                    التوضيحية)، وتمنح المحتوى تأثيراً مباشراً وسريع الفهم.</p>
+                </div>
+
+                <div class="element-card">
+                  <div class="element-icon-box">🎵</div>
+                  <h3>3. الصوت (Audio)</h3>
+                  <p>المحتوى المسموع الذي يشمل المؤثرات الصوتية (SFX)، والكلام المنطوق (Voiceover)، والموسيقى الخلفية
+                    لإضفاء الواقعية وإثارة المشاعر.</p>
+                </div>
+
+                <div class="element-card">
+                  <div class="element-icon-box">🎥</div>
+                  <h3>4. الفيديو (Video)</h3>
+                  <p>سلسلة من الصور الفوتوغرافية الحقيقية المتتابعة بسرعة عالية لخلق وهم الحركة الواقعية، متزامنة مع
+                    مسار صوتي مدمج.</p>
+                </div>
+
+                <div class="element-card">
+                  <div class="element-icon-box">🎬</div>
+                  <h3>5. التحريك (Animation)</h3>
+                  <p>توليد الحركة برمجياً أو رسومياً من رسومات متسلسلة (2D أو 3D)، وتُستخدم لمحاكاة المفاهيم المجردة
+                    وتوضيح ما يصعب تصويره بالفيديو العادي.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 3: How Multimedia Elements Work Together (Interactive Demo) -->
+            <section class="theory-section">
+              <div class="theory-section-header">
+                <span class="section-num">03</span>
+                <h2>كيف تتكامل عناصر الوسائط معاً؟ (Elements Integration)</h2>
+              </div>
+              <p>
+                قوة الوسائط المتعددة لا تكمن في كل وسيط بمفرده، بل في <strong>طريقة تناغمها وتكاملها</strong>. جرّب
+                المحاكي التفاعلي التالي لترى كيف يتحول المحتوى من فكرة جافة إلى تجربة غامرة:
+              </p>
+
+              <!-- Interactive Integrator Showcase -->
+              <div class="integrator-container">
+                <div class="integrator-header">
+                  <h4>محاكي دمج الوسائط التفاعلي (Interactive Media Composer)</h4>
+                  <span class="hint-small">قم بتفعيل وإلغاء العناصر لملاحظة أثر التكامل على ثراء المحتوى:</span>
+                </div>
+
+                <div class="integrator-body">
+                  <!-- Control Toggles -->
+                  <div class="integrator-toggles">
+                    <label class="toggle-chip">
+                      <input type="checkbox" id="toggle-media-text" checked>
+                      <span>📝 النص (Text)</span>
+                    </label>
+                    <label class="toggle-chip">
+                      <input type="checkbox" id="toggle-media-image" checked>
+                      <span>🖼️ الصورة (Image)</span>
+                    </label>
+                    <label class="toggle-chip">
+                      <input type="checkbox" id="toggle-media-anim" checked>
+                      <span>🎬 التحريك (Animation)</span>
+                    </label>
+                    <label class="toggle-chip">
+                      <input type="checkbox" id="toggle-media-audio" checked>
+                      <span>🎵 الصوت (Audio)</span>
+                    </label>
+                  </div>
+
+                  <!-- Simulated Media Screen -->
+                  <div class="integrator-stage" id="integrator-stage">
+                    <div class="integrator-bg-layer" id="demo-layer-image"></div>
+                    <div class="integrator-anim-obj" id="demo-layer-anim">
+                      <div class="demo-rocket">🚀</div>
+                    </div>
+                    <div class="integrator-text-layer" id="demo-layer-text">
+                      <div class="demo-title">رحلة استكشاف الفضاء الرقمي</div>
+                      <div class="demo-sub">انطلق معنا في عالم الحوسبة السحابية والإبداع الرقمي</div>
+                    </div>
+                    <div class="integrator-audio-wave" id="demo-layer-audio">
+                      <span class="wave-bar"></span>
+                      <span class="wave-bar"></span>
+                      <span class="wave-bar"></span>
+                      <span class="wave-bar"></span>
+                      <span class="wave-label">موسيقى تشويقية وتأثيرات صوتية 🔊</span>
+                    </div>
+                  </div>
+
+                  <!-- Richness Meter & Educational Feedback -->
+                  <div class="integrator-feedback-bar">
+                    <div class="richness-meter-wrapper">
+                      <div class="richness-meter-label">
+                        <span>مؤشر ثراء التجربة (Engagement Score):</span>
+                        <strong id="integrator-score" class="mono">100%</strong>
+                      </div>
+                      <div class="richness-track">
+                        <div class="richness-fill" id="integrator-fill" style="width: 100%;"></div>
+                      </div>
+                    </div>
+                    <p class="integrator-insight" id="integrator-insight">
+                      🌟 تجربة وسائط متعددة متكاملة: تضافر النص والصورة والحركة والصوت يضمن إيصال الرسالة بأعلى قدر من
+                      الجاذبية والوضوح!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 4: Where Is Multimedia Used? -->
+            <section class="theory-section">
+              <div class="theory-section-header">
+                <span class="section-num">04</span>
+                <h2>أين تُستخدم الوسائط المتعددة؟ (Applications of Multimedia)</h2>
+              </div>
+              <p>أصبحت الوسائط المتعددة جزءاً جوهرياً لا غنى عنه في مختلف مجالات الحياة الرقمية:</p>
+
+              <div class="apps-grid">
+                <div class="app-card">
+                  <div class="app-icon">🎓</div>
+                  <h4>التعليم والتدريب (Education)</h4>
+                  <p>التعليم الإلكتروني التفاعلي، المحاكاة الطبية والعلمية، والفيديوهات التدريبية لتسهيل استيعاب
+                    المفاهيم المعقدة.</p>
+                </div>
+
+                <div class="app-card">
+                  <div class="app-icon">🍿</div>
+                  <h4>الترفيه (Entertainment)</h4>
+                  <p>صناعة السينما، المؤثرات البصرية (VFX)، برامج الرسوم المتحركة، منصات بث الموسيقى والفيديو حسب الطلب.
+                  </p>
+                </div>
+
+                <div class="app-card">
+                  <div class="app-icon">📢</div>
+                  <h4>الإعلان والتسويق (Advertising)</h4>
+                  <p>الحملات الترويجية الرقمية، الرسوم المتحركة الإعلانية، والإعلانات التفاعلية لجذب انتباه العملاء
+                    وزيادة المبيعات.</p>
+                </div>
+
+                <div class="app-card">
+                  <div class="app-icon">💬</div>
+                  <h4>التواصل الرقمي (Communication)</h4>
+                  <p>الاجتماعات المرئية الافتراضية، العروض التقديمية التفاعلية، وشبكات التواصل الاجتماعي المعتمدة على
+                    محتوى الميديا.</p>
+                </div>
+
+                <div class="app-card">
+                  <div class="app-icon">🎮</div>
+                  <h4>الألعاب والواقع الافتراضي (Games & VR)</h4>
+                  <p>العوالم التفاعلية ثلاثية الأبعاد، بيئات الواقع الافتراضي (VR) والواقع المعزز (AR) التي تدمج كافة
+                    الحواس.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 5: Why Is Multimedia Important? -->
+            <section class="theory-section">
+              <div class="theory-section-header">
+                <span class="section-num">05</span>
+                <h2>لماذا الوسائط المتعددة مهمة؟ (Why Multimedia Matters)</h2>
+              </div>
+              <p>تكمن الأهمية الاستثنائية للوسائط المتعددة في قدرتها على تجاوز قيود التواصل النصي التقليدي:</p>
+
+              <div class="benefits-list">
+                <div class="benefit-item">
+                  <div class="benefit-bullet">✓</div>
+                  <div>
+                    <strong>وضوح وسرعة استيعاب المعلومات (Information Clarity):</strong>
+                    المخطط البياني أو المشهد المتحرك يختصر صفحات من الشرح النصي ويوصل الفكرة في ثوانٍ معدودة.
+                  </div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-bullet">✓</div>
+                  <div>
+                    <strong>زيادة تفاعل واهتمام المستخدم (Higher Engagement):</strong>
+                    المحتوى الغني بالصور والحركة يبقي انتباه المتلقي فترات أطول بنسبة تصل إلى 80% مقارنة بالنصوص الجافة.
+                  </div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-bullet">✓</div>
+                  <div>
+                    <strong>جاذبية واحترافية العرض (Content Appeal):</strong>
+                    التنسيق البصري والصوتي يمنح المنتجات والأنظمة مظهراً احترافياً يعزز ثقة الجمهور.
+                  </div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-bullet">✓</div>
+                  <div>
+                    <strong>مراعاة أنماط التعلم المختلفة (Diverse Learning Styles):</strong>
+                    يلبي احتياجات المتعلم البصري (Visual)، والمتعلم السمعي (Auditory)، والمتعلم التفاعلي (Kinesthetic).
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 6: Quick Knowledge Check -->
+            <section class="theory-section quiz-section">
+              <div class="theory-section-header">
+                <span class="section-num">06</span>
+                <h2>اختبار المعرفة السريع (Quick Knowledge Check)</h2>
+              </div>
+              <p>اختبر استيعابك للمفاهيم الأساسية التي تناولناها في هذا الدرس من خلال الأسئلة السريعة التالية:</p>
+
+              <div class="quiz-container">
+                <!-- Question 1 -->
+                <div class="quiz-card" data-quiz="1" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">1</span>
+                    <p>ما هو التعريف الأكثر دقة للوسائط المتعددة (Multimedia)؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt" data-index="0">أ) الاكتفاء باستخدام نصوص مكتوبة لتوفير
+                      الذاكرة.</button>
+                    <button type="button" class="quiz-opt" data-index="1">ب) دمج عناصر متعددة (نص، صورة، صوت، فيديو،
+                      تحريك) عبر الحاسوب لتقديم رسالة تفاعلية.</button>
+                    <button type="button" class="quiz-opt" data-index="2">ج) ملف فيديو عادي بدون أي ترجمة أو مؤثرات
+                      صوتية.</button>
+                  </div>
+                  <div class="quiz-feedback" hidden></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-card" data-quiz="2" data-correct="0">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">2</span>
+                    <p>أي من عناصر الوسائط المتعددة يعتمد على توليد إيهام بالحركة من خلال سلسلة من الرسومات المتتابعة
+                      (2D أو 3D)؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt" data-index="0">أ) التحريك (Animation).</button>
+                    <button type="button" class="quiz-opt" data-index="1">ب) الصوت الرقمي (Digital Audio).</button>
+                    <button type="button" class="quiz-opt" data-index="2">ج) النص الثابت (Plain Text).</button>
+                  </div>
+                  <div class="quiz-feedback" hidden></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-card" data-quiz="3" data-correct="2">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">3</span>
+                    <p>لماذا يُعد دمج عناصر الوسائط المتعددة مهماً في التعليم والإعلانات الحديثة؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt" data-index="0">أ) لأنه يعقد المحتوى ويمنع المستخدم العادي من
+                      فهمه.</button>
+                    <button type="button" class="quiz-opt" data-index="1">ب) لأنه يستهلك موارد الجهاز بدون أي فائدة
+                      إدراكية.</button>
+                    <button type="button" class="quiz-opt" data-index="2">ج) لأنه يجعل المعلومات أكثر وضوحاً، ويزيد
+                      تفاعل المشاهد ويثري تجربة التعلم.</button>
+                  </div>
+                  <div class="quiz-feedback" hidden></div>
+                </div>
+
+                <div class="quiz-actions">
+                  <button type="button" class="btn-sm btn-control accent" id="btn-reset-quiz">↺ إعادة محاولة
+                    الاختبار</button>
+                  <span id="quiz-summary-score" class="quiz-score-badge mono">النتيجة: -- / 3</span>
+                </div>
+              </div>
+            </section>
+          </article>
+
+          <!-- PLACEHOLDER VIEW: Coming Soon for other 5 topics -->
+          <div class="theory-coming-soon-wrapper" id="lesson-coming-soon" style="display: none;">
+            <div class="coming-soon-card">
+              <div class="coming-soon-icon" id="cs-topic-icon">🖼️</div>
+              <div class="coming-soon-badge">قيد التطوير للمرحلة القادمة • Coming Soon</div>
+              <h2 id="cs-topic-title">الصور والبكسلات (Images & Pixels)</h2>
+              <p id="cs-topic-desc">
+                سيتم تدشين هذا الدرس التفاعلي في المرحلة القادمة ليغطي التمثيل الرياضي للبكسلات، الفرق بين الصور النقطية
+                والمتجهة، وعمق الألوان ودقة العرض.
+              </p>
+              <button type="button" class="btn-sm btn-theory-back-alt" id="btn-cs-back">
+                ← العودة إلى خريطة المفاهيم (Back to Topics)
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
   </div>
 
   <script src="app.js"></script>
