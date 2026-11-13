@@ -18,7 +18,10 @@
   margin: 0;
   padding: 0;
   font-family: 'Cairo', sans-serif;
-  user-select: none;
+}
+
+html {
+  direction: ltr;
 }
 
 body {
@@ -1292,6 +1295,7 @@ select:focus {
   background-color: var(--bg-darkest);
   min-height: 0;
   height: 100%;
+  direction: ltr;
 }
 
 .theory-view {
@@ -1299,6 +1303,7 @@ select:focus {
   flex-direction: column;
   flex: 1;
   padding: 1.5rem;
+  direction: rtl;
 }
 
 .theory-view.active {
@@ -1351,8 +1356,8 @@ select:focus {
 .concept-map-stage {
   position: relative;
   width: 100%;
-  max-width: 620px;
-  height: 560px;
+  max-width: 720px;
+  height: 650px;
   margin: 0 auto;
 }
 
@@ -1456,8 +1461,8 @@ select:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 190px;
-  height: 190px;
+  width: 210px;
+  height: 210px;
   background: radial-gradient(circle at 40% 40%, #2f1d4f 0%, #1a1528 80%, #121216 100%);
   border: 2px solid var(--ae-purple);
   box-shadow: 0 0 30px rgba(153, 153, 255, 0.35), 0 8px 30px rgba(0, 0, 0, 0.8);
@@ -1540,30 +1545,40 @@ select:focus {
   top: 14%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
 }
 
 .node-pos-2 {
   top: 39%;
   left: 84%;
   transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
 }
 
 .node-pos-3 {
   top: 82%;
   left: 71%;
   transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
 }
 
 .node-pos-4 {
   top: 82%;
   left: 29%;
   transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
 }
 
 .node-pos-5 {
   top: 39%;
   left: 16%;
   transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
 }
 
 /* Status Badges on Nodes */
@@ -1847,7 +1862,7 @@ select:focus {
   font-size: 0.8rem;
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
 }
 
 .toggle-chip:hover {
@@ -1885,7 +1900,7 @@ select:focus {
   left: 20%;
   bottom: 25px;
   font-size: 2.2rem;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
   animation: rocketFly 4s ease-in-out infinite alternate;
 }
 
@@ -2253,6 +2268,833 @@ select:focus {
   line-height: 1.55;
 }
 
+/* ==========================================================
+   LESSON 2: IMAGES & PIXELS SPECIFIC STYLES
+   ========================================================== */
+
+.theory-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.theory-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.formula-box {
+  display: inline-block;
+  background-color: #0b0b0e;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  color: var(--ae-accent);
+  margin: 6px 0;
+  font-weight: 600;
+}
+
+.formula-card {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.08), rgba(0, 212, 255, 0.05));
+  border: 1px solid rgba(157, 78, 221, 0.35);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 12px 0;
+}
+
+.formula-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ae-purple);
+  margin-bottom: 6px;
+}
+
+.formula-expression {
+  background-color: #0b0b0e;
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #00e676;
+  font-size: 0.92rem;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+.formula-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Interactive Component Box Base */
+.interactive-tool-box {
+  background-color: #0d0d12;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.tool-header {
+  background-color: var(--bg-card);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tool-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tool-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.tool-title {
+  font-size: 0.95rem;
+  color: var(--ae-purple);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.tool-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Simulator Layout */
+.sim-content-layout {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.sim-canvas-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sim-canvas-wrapper {
+  position: relative;
+  width: 320px;
+  height: 240px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: #000;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+#img-sim-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.sim-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-size: 10px 10px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+}
+
+.sim-canvas-caption {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.sim-controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-group-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sim-buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-sim-res {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.btn-sim-res:hover {
+  border-color: var(--ae-purple);
+  background-color: var(--bg-hover);
+}
+
+.btn-sim-res.active {
+  border-color: var(--ae-accent);
+  background-color: rgba(0, 212, 255, 0.12);
+}
+
+.btn-sim-res.active .res-dim {
+  color: var(--ae-accent);
+}
+
+.res-dim {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.res-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.sim-toggle-row {
+  margin-top: 2px;
+}
+
+.sim-stats-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.stat-label {
+  color: var(--text-muted);
+}
+
+.stat-val {
+  font-weight: 700;
+  color: #fff;
+}
+
+.text-accent {
+  color: var(--ae-accent) !important;
+}
+
+.stat-note {
+  font-size: 0.78rem;
+  color: #ffcc00;
+  background-color: rgba(255, 204, 0, 0.08);
+  border-radius: 4px;
+  padding: 6px 10px;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+/* Color Depth Cards */
+.depth-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.depth-card:hover {
+  border-color: var(--ae-purple);
+}
+
+.depth-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.depth-badge {
+  background-color: var(--ae-purple);
+  color: #121214;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.depth-card h4 {
+  font-size: 0.92rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.depth-card p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.depth-card-meta {
+  font-size: 0.75rem;
+  color: var(--ae-accent);
+  background-color: #0b0b0e;
+  padding: 4px 8px;
+  border-radius: 4px;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* Color Representation Section */
+.color-rep-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.color-rep-box h4 {
+  font-size: 0.88rem;
+  color: var(--ae-purple);
+  margin: 0;
+}
+
+.rep-formats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.rep-item {
+  background-color: #0b0b0e;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rep-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.rep-val {
+  font-size: 0.85rem;
+  color: var(--ae-accent);
+  font-weight: 700;
+}
+
+.rep-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.note-indexed {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px dashed var(--border-color);
+  padding-top: 10px;
+}
+
+/* Bit Depth Visualizer Interactive Component */
+.depth-visualizer-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.depth-mode-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-depth-mode {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.btn-depth-mode:hover {
+  border-color: var(--ae-purple);
+}
+
+.btn-depth-mode.active {
+  background-color: rgba(157, 78, 221, 0.2);
+  border-color: var(--ae-purple);
+  color: #fff;
+  font-weight: 600;
+}
+
+.depth-preview-stage {
+  background-color: #171022;
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.depth-canvas-box {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Checkerboard pattern for transparency */
+#depth-checker-bg {
+  background-color: #1a1a24;
+  background-image:
+    linear-gradient(45deg, #12121a 25%, transparent 25%),
+    linear-gradient(-45deg, #12121a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #12121a 75%),
+    linear-gradient(-45deg, transparent 75%, #12121a 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+#depth-preview-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.depth-info-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.depth-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.depth-info-header h4 {
+  font-size: 0.92rem;
+  color: #fff;
+  font-weight: 700;
+  margin: 0;
+}
+
+.badge-tag {
+  background-color: #0b0b0e;
+  border: 1px solid var(--border-color);
+  color: var(--ae-accent);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.depth-channels-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.channel-pill {
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.channel-pill.red {
+  background-color: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: #ff8a80;
+}
+
+.channel-pill.green {
+  background-color: rgba(0, 230, 118, 0.15);
+  border: 1px solid rgba(0, 230, 118, 0.4);
+  color: #b9f6ca;
+}
+
+.channel-pill.blue {
+  background-color: rgba(68, 138, 255, 0.15);
+  border: 1px solid rgba(68, 138, 255, 0.4);
+  color: #82b1ff;
+}
+
+.channel-pill.alpha {
+  background-color: rgba(255, 215, 64, 0.15);
+  border: 1px solid rgba(255, 215, 64, 0.4);
+  color: #ffe57f;
+}
+
+.depth-info-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Section 4: Raster vs Vector */
+.raster-vector-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.rv-col {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.raster-col {
+  border-top: 3px solid #ff9100;
+}
+
+.vector-col {
+  border-top: 3px solid #00d4ff;
+}
+
+.rv-header {
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+}
+
+.rv-icon {
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+}
+
+.rv-header h3 {
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.rv-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.rv-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rv-prop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rv-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ae-purple);
+}
+
+.rv-prop p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Section 5: Calculator */
+.calc-steps-explainer {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.calc-steps-explainer h4 {
+  font-size: 0.88rem;
+  color: var(--ae-purple);
+  margin-bottom: 8px;
+}
+
+.steps-numbered-list {
+  padding-right: 20px;
+  margin: 0;
+  font-size: 0.82rem;
+  color: #e0e0e8;
+  line-height: 1.7;
+}
+
+.methodology-callout {
+  background: rgba(255, 204, 0, 0.08);
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: #ffcc00;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.calc-tool-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.calc-presets-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.preset-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.btn-preset {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.btn-preset:hover {
+  border-color: var(--ae-purple);
+  background-color: var(--bg-hover);
+}
+
+.btn-preset.active {
+  background-color: rgba(0, 212, 255, 0.12);
+  border-color: var(--ae-accent);
+  color: #fff;
+}
+
+.calc-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.calc-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calc-input-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.calc-input,
+.calc-select {
+  background-color: #0b0b0e;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.calc-input:focus,
+.calc-select:focus {
+  border-color: var(--ae-accent);
+}
+
+.calc-result-display {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.calc-breakdown-box {
+  background-color: #0b0b0e;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdown-title {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.breakdown-steps {
+  font-size: 0.78rem;
+  color: #e0e0e8;
+  line-height: 1.6;
+}
+
+.calc-summary-badge {
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.15), rgba(0, 212, 255, 0.12));
+  border: 1px solid var(--ae-purple);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.badge-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.badge-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #00e676;
+  margin: 4px 0;
+}
+
+.badge-subunits {
+  font-size: 0.82rem;
+  color: var(--ae-accent);
+}
+
+/* Quiz Specific Classes for Images Lesson (Isolated Namespace) */
+.quiz-card-img {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-opt-img {
+  text-align: right;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.quiz-opt-img:hover:not(:disabled) {
+  border-color: var(--ae-purple);
+  background-color: var(--bg-hover);
+}
+
+.quiz-opt-img.selected-correct {
+  background-color: rgba(0, 230, 118, 0.15) !important;
+  border-color: var(--success) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.quiz-opt-img.selected-incorrect {
+  background-color: rgba(255, 82, 82, 0.15) !important;
+  border-color: var(--danger) !important;
+  color: #ffffff !important;
+}
+
+.quiz-feedback-img {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.quiz-feedback-img.correct-feedback {
+  background-color: rgba(0, 230, 118, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+.quiz-feedback-img.incorrect-feedback {
+  background-color: rgba(255, 82, 82, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+}
+
 /* Responsive Styles for Concept Map on Mobile & Tablets */
 @media (max-width: 768px) {
   .concept-map-stage-wrapper {
@@ -2316,7 +3158,12 @@ select:focus {
   }
 
   .elements-grid,
-  .apps-grid {
+  .apps-grid,
+  .theory-grid-2,
+  .theory-grid-3,
+  .sim-content-layout,
+  .raster-vector-comparison,
+  .calc-result-display {
     grid-template-columns: 1fr;
   }
 }
@@ -2452,5 +3299,664 @@ select:focus {
 
   .viewport-container {
     height: 240px;
+  }
+}
+
+/* ==========================================================
+   LESSON 3: COLOR & COLOR MODELS (Isolated Styles)
+   All selectors scoped to #lesson-colors
+   ========================================================== */
+
+/* 1. Comparison Table */
+#lesson-colors .table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+#lesson-colors .theory-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  background-color: var(--bg-card);
+  text-align: right;
+}
+
+#lesson-colors .theory-table th {
+  background-color: var(--bg-dark);
+  color: var(--ae-purple);
+  padding: 10px 14px;
+  font-weight: 700;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+#lesson-colors .theory-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+#lesson-colors .theory-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+#lesson-colors .theory-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+/* 2. RGB Mixer & Code Explorer */
+#lesson-colors .color-mixer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px;
+  background-color: transparent;
+}
+
+#lesson-colors .color-sliders-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+#lesson-colors .color-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#lesson-colors .color-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+#lesson-colors .color-row-red label {
+  color: #ff5252;
+}
+
+#lesson-colors .color-row-green label {
+  color: #00e676;
+}
+
+#lesson-colors .color-row-blue label {
+  color: #00d2ff;
+}
+
+#lesson-colors .color-val-badge {
+  background-color: #121214;
+  color: var(--text-main);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  min-width: 42px;
+  text-align: center;
+}
+
+#lesson-colors .color-range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--bg-card);
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#lesson-colors .color-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+}
+
+#lesson-colors .color-range-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+#lesson-colors .color-range-input:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+#lesson-colors .range-red::-webkit-slider-thumb {
+  background-color: #ff5252;
+}
+
+#lesson-colors .range-red::-moz-range-thumb {
+  background-color: #ff5252;
+}
+
+#lesson-colors .range-green::-webkit-slider-thumb {
+  background-color: #00e676;
+}
+
+#lesson-colors .range-green::-moz-range-thumb {
+  background-color: #00e676;
+}
+
+#lesson-colors .range-blue::-webkit-slider-thumb {
+  background-color: #00d2ff;
+}
+
+#lesson-colors .range-blue::-moz-range-thumb {
+  background-color: #00d2ff;
+}
+
+#lesson-colors .color-presets-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+#lesson-colors .color-presets-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+#lesson-colors .color-presets-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#lesson-colors .btn-color-preset {
+  padding: 5px 10px;
+  font-size: 0.76rem;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+#lesson-colors .btn-color-preset:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--ae-purple);
+  color: #ffffff;
+}
+
+/* Color Preview & Synchronized Codes */
+#lesson-colors .color-preview-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  justify-content: center;
+}
+
+#lesson-colors .color-swatch-box {
+  height: 130px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background-color: rgb(230, 57, 70);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.15s ease;
+}
+
+#lesson-colors .color-swatch-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+#lesson-colors .color-codes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#lesson-colors .color-code-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+
+#lesson-colors .code-card-type {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+#lesson-colors .code-card-val {
+  color: var(--ae-accent);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+/* 3. Additive vs. Subtractive Venn Lab */
+#lesson-colors .venn-mode-switcher {
+  display: flex;
+  gap: 10px;
+  padding: 16px 16px 0 16px;
+  justify-content: center;
+  background-color: transparent;
+}
+
+#lesson-colors .btn-venn-mode {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-dark);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+#lesson-colors .btn-venn-mode:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+}
+
+#lesson-colors .btn-venn-mode.active {
+  background-color: var(--ae-purple-dark);
+  border-color: var(--ae-purple);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(153, 153, 255, 0.25);
+}
+
+#lesson-colors .venn-stage-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 16px;
+  background-color: transparent;
+  align-items: center;
+}
+
+#lesson-colors .venn-stage {
+  position: relative;
+  width: 280px;
+  height: 260px;
+  min-width: 280px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+}
+
+#lesson-colors .venn-stage.mode-additive {
+  background-color: #000000;
+}
+
+#lesson-colors .venn-stage.mode-subtractive {
+  background-color: #ffffff;
+}
+
+#lesson-colors .venn-circle {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.78rem;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+/* Pseudo-element for blended circle background */
+#lesson-colors .venn-circle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, mix-blend-mode 0.3s ease;
+}
+
+#lesson-colors .venn-c1 {
+  top: 25px;
+  left: calc(50% - 70px);
+}
+
+#lesson-colors .venn-c2 {
+  bottom: 25px;
+  left: 28px;
+}
+
+#lesson-colors .venn-c3 {
+  bottom: 25px;
+  right: 28px;
+}
+
+/* Additive Venn Circles (Screen blend on ::before) */
+#lesson-colors .mode-additive .venn-circle::before {
+  mix-blend-mode: screen;
+}
+
+#lesson-colors .mode-additive .venn-c1::before {
+  background-color: #ff0000;
+}
+
+#lesson-colors .mode-additive .venn-c2::before {
+  background-color: #00ff00;
+}
+
+#lesson-colors .mode-additive .venn-c3::before {
+  background-color: #0000ff;
+}
+
+/* Subtractive Venn Circles (Multiply blend on ::before) */
+#lesson-colors .mode-subtractive .venn-circle::before {
+  mix-blend-mode: multiply;
+}
+
+#lesson-colors .mode-subtractive .venn-c1::before {
+  background-color: #00ffff;
+}
+
+#lesson-colors .mode-subtractive .venn-c2::before {
+  background-color: #ff00ff;
+}
+
+#lesson-colors .mode-subtractive .venn-c3::before {
+  background-color: #ffff00;
+}
+
+/* Venn Labels: Clean, unblended text positioned in outer non-overlapping region */
+#lesson-colors .venn-label {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+#lesson-colors .venn-c1 .venn-label {
+  transform: translateY(-28px);
+}
+
+#lesson-colors .venn-c2 .venn-label {
+  transform: translate(-24px, 24px);
+}
+
+#lesson-colors .venn-c3 .venn-label {
+  transform: translate(24px, 24px);
+}
+
+#lesson-colors .mode-additive .venn-label {
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+#lesson-colors .mode-subtractive .venn-label {
+  color: #121214;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+#lesson-colors .venn-center-badge {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 5;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+#lesson-colors .mode-additive .venn-center-badge {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#lesson-colors .mode-subtractive .venn-center-badge {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#lesson-colors .venn-info-box {
+  flex: 1;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#lesson-colors .venn-info-box h4 {
+  font-size: 0.95rem;
+  color: var(--ae-purple);
+  margin: 0;
+}
+
+#lesson-colors .venn-rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+#lesson-colors .venn-rules-list li {
+  position: relative;
+  padding-right: 14px;
+}
+
+#lesson-colors .venn-rules-list li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: var(--ae-accent);
+}
+
+/* 4. Quiz Specific Classes for Colors Lesson */
+#lesson-colors .quiz-card-color {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#lesson-colors .quiz-opt-color {
+  text-align: right;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+#lesson-colors .quiz-opt-color:hover:not(:disabled) {
+  border-color: var(--ae-purple);
+  background-color: var(--bg-hover);
+}
+
+#lesson-colors .quiz-opt-color.selected-correct {
+  background-color: rgba(0, 230, 118, 0.15) !important;
+  border-color: var(--success) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+#lesson-colors .quiz-opt-color.selected-incorrect {
+  background-color: rgba(255, 82, 82, 0.15) !important;
+  border-color: var(--danger) !important;
+  color: #ffffff !important;
+}
+
+#lesson-colors .quiz-feedback-color {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+#lesson-colors .quiz-feedback-color.correct-feedback {
+  background-color: rgba(0, 230, 118, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+#lesson-colors .quiz-feedback-color.incorrect-feedback {
+  background-color: rgba(255, 82, 82, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+}
+
+/* 5. Responsive Styles for Colors Lesson */
+@media (max-width: 768px) {
+  #lesson-colors .color-mixer-container {
+    grid-template-columns: 1fr;
+  }
+
+  #lesson-colors .venn-stage-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #lesson-colors .venn-info-box {
+    width: 100%;
+  }
+
+  #lesson-colors .theory-table th,
+  #lesson-colors .theory-table td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #lesson-colors .color-code-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  #lesson-colors .code-card-val {
+    font-size: 0.8rem;
+    align-self: flex-start;
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: nowrap;
+    padding-bottom: 2px;
+  }
+
+  #lesson-colors .venn-stage {
+    width: 250px;
+    height: 230px;
+    min-width: 250px;
+  }
+
+  #lesson-colors .venn-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  #lesson-colors .venn-c1 {
+    top: 15px;
+    left: calc(50% - 60px);
+  }
+
+  #lesson-colors .venn-c2 {
+    bottom: 15px;
+    left: 18px;
+  }
+
+  #lesson-colors .venn-c3 {
+    bottom: 15px;
+    right: 18px;
+  }
+
+  #lesson-colors .venn-c1 .venn-label {
+    transform: translateY(-22px);
+  }
+
+  #lesson-colors .venn-c2 .venn-label {
+    transform: translate(-18px, 18px);
+  }
+
+  #lesson-colors .venn-c3 .venn-label {
+    transform: translate(18px, 18px);
+  }
+
+  #lesson-colors .btn-color-preset {
+    flex: 1 1 calc(50% - 6px);
+    text-align: center;
+  }
+
+  #lesson-colors .btn-venn-mode {
+    font-size: 0.78rem;
+    padding: 6px 10px;
   }
 }

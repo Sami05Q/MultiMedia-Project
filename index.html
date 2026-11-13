@@ -582,7 +582,7 @@
                   <div class="node-icon">🖼️</div>
                   <h4 class="node-title">الصور والبكسلات</h4>
                   <span class="node-subtitle">Images & Pixels</span>
-                  <span class="node-status-badge upcoming">قريباً</span>
+                  <span class="node-status-badge available">درس مكتمل ✓</span>
                 </div>
               </div>
 
@@ -593,7 +593,7 @@
                   <div class="node-icon">🎨</div>
                   <h4 class="node-title">النماذج اللونية</h4>
                   <span class="node-subtitle">Color Models (RGB)</span>
-                  <span class="node-status-badge upcoming">قريباً</span>
+                  <span class="node-status-badge available">درس مكتمل ✓</span>
                 </div>
               </div>
 
@@ -753,19 +753,19 @@
                   <!-- Control Toggles -->
                   <div class="integrator-toggles">
                     <label class="toggle-chip">
-                      <input type="checkbox" id="toggle-media-text" checked>
+                      <input type="checkbox" id="toggle-media-text">
                       <span>📝 النص (Text)</span>
                     </label>
                     <label class="toggle-chip">
-                      <input type="checkbox" id="toggle-media-image" checked>
+                      <input type="checkbox" id="toggle-media-image">
                       <span>🖼️ الصورة (Image)</span>
                     </label>
                     <label class="toggle-chip">
-                      <input type="checkbox" id="toggle-media-anim" checked>
+                      <input type="checkbox" id="toggle-media-anim">
                       <span>🎬 التحريك (Animation)</span>
                     </label>
                     <label class="toggle-chip">
-                      <input type="checkbox" id="toggle-media-audio" checked>
+                      <input type="checkbox" id="toggle-media-audio">
                       <span>🎵 الصوت (Audio)</span>
                     </label>
                   </div>
@@ -787,6 +787,8 @@
                       <span class="wave-bar"></span>
                       <span class="wave-label">موسيقى تشويقية وتأثيرات صوتية 🔊</span>
                     </div>
+                    <!-- Hidden Audio Player for Interactive Media Composer -->
+                    <audio id="integrator-audio-player" src="assets/audio/intro-audio.mp3" preload="auto" loop></audio>
                   </div>
 
                   <!-- Richness Meter & Educational Feedback -->
@@ -957,6 +959,1200 @@
                   <button type="button" class="btn-sm btn-control accent" id="btn-reset-quiz">↺ إعادة محاولة
                     الاختبار</button>
                   <span id="quiz-summary-score" class="quiz-score-badge mono">النتيجة: -- / 3</span>
+                </div>
+              </div>
+            </section>
+          </article>
+
+          <!-- ======================================================== -->
+          <!-- LESSON 2: IMAGES & PIXELS (COMPLETE INTERACTIVE LESSON)  -->
+          <!-- ======================================================== -->
+          <article class="theory-lesson-content" id="lesson-images" style="display: none;">
+            <!-- Lesson Hero -->
+            <div class="theory-lesson-hero">
+              <div class="lesson-badge">الدرس الثاني • وحدة تمثيل الوسائط</div>
+              <h1 class="lesson-hero-title">الصور والبكسلات (Images &amp; Pixels)</h1>
+              <p class="lesson-hero-desc">
+                استكشف في هذا الدرس البنية الرياضية للصورة الرقمية، مفهوم البكسل، الدقة المكانية وكثافة العرض،
+                الأعماق اللونية وقنوات الألوان، الفارق الجوهري بين الصور النقطية والمتجهة، وطريقة حساب حجم البيانات
+                الخام غير المضغوطة.
+              </p>
+            </div>
+
+            <!-- Section 01: Image Fundamentals -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">01</span>
+                <h2>أساسيات الصورة الرقمية والبكسل (Digital Image Fundamentals)</h2>
+              </div>
+              <p class="section-lead">
+                تُعرّف <strong>الصورة الرقمية (Digital Image)</strong> في علوم الحاسوب والوسائط المتعددة بأنها تمثيل
+                متقطع (Discrete Representation) لمعلومات بصرية ثنائية الأبعاد، وتتكون من مصفوفة منظمة من النقاط الصغرى
+                تُعرف بالبكسلات.
+              </p>
+
+              <div class="theory-grid-2">
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔲</div>
+                  <div class="concept-card-body">
+                    <h3>المصفوفة الرقمية (2D Grid / Matrix)</h3>
+                    <p>
+                      تُرتب عناصر الصورة في شبكة مستطيلة ثنائية الأبعاد تتألف من صفوف (Rows) وأعمدة (Columns). كل موضع
+                      في هذه الشبكة يمثل عينة رقمية مستقلة لمستوى الإضاءة واللون في المشهد الأصلي.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🎯</div>
+                  <div class="concept-card-body">
+                    <h3>عنصر الصورة: البكسل (Pixel)</h3>
+                    <p>
+                      كلمة <strong>Pixel</strong> اختصار لـ <em>Picture Element</em>، وهو أصغر وحدة مستقلة لبناء الصورة
+                      الرقمية. يتميز كل بكسل بخاصيتين أساسيتين:
+                      <strong>1) عنوان مكاني (Coordinates)</strong> يحدد موقعه بالمحاور <span class="mono">(x,
+                        y)</span>، و<strong>2) قيمة لونية أو شدة ضوئية (Color/Intensity Value)</strong> مسجلة رقمياً.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">📐</div>
+                  <div class="concept-card-body">
+                    <h3>أبعاد الصورة (Image Dimensions)</h3>
+                    <p>
+                      يُعبّر عن الحجم الهندسي للصورة الرقمية بعدد البكسلات الممتدة أفقياً وعمودياً:
+                      <span class="mono">العرض (Width) × الارتفاع (Height)</span>. مثال: صورة بأبعاد <span
+                        class="mono">1920 × 1080</span> تحتوي على 1920 عموداً و 1080 صفاً من البكسلات.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔢</div>
+                  <div class="concept-card-body">
+                    <h3>إجمالي عدد البكسلات (Total Pixels)</h3>
+                    <p>
+                      يُحسب إجمالي عدد النقاط المكونة للصورة بالمعادلة المباشرة:
+                      <br>
+                      <span class="mono formula-box">Total Pixels = Width × Height</span>
+                      <br>
+                      فعلى سبيل المثال، صورة <span class="mono">1920 × 1080</span> تضم إجمالياً <span
+                        class="mono">2,073,600</span> بكسل (ما يقارب 2.07 ميجابكسل).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 02: Spatial Resolution & Pixel Density + Simulator -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">02</span>
+                <h2>الدقة المكانية وتمثيل البكسل (Resolution &amp; Pixel Representation)</h2>
+              </div>
+              <p class="section-lead">
+                ترتبط جودة التفاصيل البصرية في الصورة الرقمية بمدى تقارب وكثافة البكسلات المكونة لها، والتمييز الدقيق
+                بين البكسل البرمجي المنطقي والبكسل الفيزيائي لشاشات العرض.
+              </p>
+
+              <div class="theory-grid-3">
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔍</div>
+                  <div class="concept-card-body">
+                    <h3>دقة الصورة (Image Resolution)</h3>
+                    <p>
+                      مقياس يعبر عن مدى تفصيل ووضوح الصورة، ويشير إلى عدد البكسلات المخصصة لتمثيل المشهد. كلما زاد عدد
+                      البكسلات في نفس المساحة، أصبحت التفاصيل أدق والتدرجات أكثر سلاسة.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">📏</div>
+                  <div class="concept-card-body">
+                    <h3>كثافة البكسل (Pixel Density - PPI)</h3>
+                    <p>
+                      تُقاس بعدد البكسلات في البوصة الواحدة <strong>(Pixels Per Inch)</strong>. تحدد مدى تقارب النقاط
+                      الضوئية على شاشات العرض؛ فالكثافة العالية تعني بكسلات أصغر حجماً بالعين المجردة ونصوصاً وحواف أكثر
+                      حدة.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">💻</div>
+                  <div class="concept-card-body">
+                    <h3>البكسل المنطقي مقابل الفيزيائي</h3>
+                    <p>
+                      <strong>البكسل المنطقي (Logical Pixel):</strong> عينة البيانات المجردة داخل الملف.<br>
+                      <strong>البكسل الفيزيائي (Physical Pixel):</strong> نقطة الإضاءة العتادية الحقيقية المكونة للوحة
+                      الشاشة.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mathematical formula for physical size -->
+              <div class="formula-card">
+                <div class="formula-title">العلاقة الرياضية بين أبعاد البكسل، الكثافة، وحجم العرض الفيزيائي:</div>
+                <div class="formula-expression mono">
+                  الحجم الفيزيائي المعروض بالبوصة (Displayed Inches) = أبعاد البكسل (Pixel Dimensions) ÷ كثافة العرض
+                  (PPI)
+                </div>
+                <div class="formula-desc">
+                  مثال: صورة بعرض <span class="mono">600 بكسل</span> عند عرضها على شاشة بكثافة <span class="mono">300
+                    PPI</span>، فإن عرضها الفيزيائي الفعلي على الشاشة يكون:
+                  <span class="mono">600 ÷ 300 = 2 بوصة</span>.
+                </div>
+              </div>
+
+              <!-- Interactive Component A: Pixel & Resolution Simulator -->
+              <div class="interactive-tool-box">
+                <div class="tool-header">
+                  <div class="tool-title-wrap">
+                    <span class="tool-icon">🔬</span>
+                    <div>
+                      <h3 class="tool-title">محاكي الدقة والبكسلة (Pixel &amp; Resolution Simulator)</h3>
+                      <p class="tool-subtitle">اختبر تأثير تقليل وزيادة دقة العينة على وضوح التفاصيل وظهور ظاهرة التسنن
+                        (Pixelation) بنسبة 4:3 ثابتة.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sim-content-layout">
+                  <div class="sim-canvas-area">
+                    <div class="sim-canvas-wrapper">
+                      <canvas id="img-sim-canvas" width="320" height="240"
+                        aria-label="شاشة محاكي الدقة والبكسلات 320 في 240"></canvas>
+                      <div id="sim-grid-overlay" class="sim-grid-overlay" style="display: none;"></div>
+                    </div>
+                    <div class="sim-canvas-caption">
+                      شاشة العرض الافتراضية: <span class="mono">320 × 240 (نسبة 4:3)</span>
+                    </div>
+                  </div>
+
+                  <div class="sim-controls-panel">
+                    <div class="control-group-title">اختر دقة العينة (Sampling Resolution):</div>
+                    <div class="sim-buttons-grid">
+                      <button type="button" class="btn-sim-res" data-w="16" data-h="12">
+                        <span class="res-dim mono">16 × 12</span>
+                        <span class="res-sub">192 بكسل (بكسلة فائقة)</span>
+                      </button>
+                      <button type="button" class="btn-sim-res active" data-w="32" data-h="24">
+                        <span class="res-dim mono">32 × 24</span>
+                        <span class="res-sub">768 بكسل (دقة منخفضة)</span>
+                      </button>
+                      <button type="button" class="btn-sim-res" data-w="64" data-h="48">
+                        <span class="res-dim mono">64 × 48</span>
+                        <span class="res-sub">3,072 بكسل (متوسطة)</span>
+                      </button>
+                      <button type="button" class="btn-sim-res" data-w="128" data-h="96">
+                        <span class="res-dim mono">128 × 96</span>
+                        <span class="res-sub">12,288 بكسل (عالية)</span>
+                      </button>
+                      <button type="button" class="btn-sim-res" data-w="320" data-h="240">
+                        <span class="res-dim mono">320 × 240</span>
+                        <span class="res-sub">76,800 بكسل (الأصلية الكاملة)</span>
+                      </button>
+                    </div>
+
+                    <div class="sim-toggle-row">
+                      <button type="button" class="btn-control btn-sm" id="btn-toggle-img-grid">
+                        ⊞ إظهار / إخفاء شبكة البكسل (Toggle Grid)
+                      </button>
+                    </div>
+
+                    <div class="sim-stats-card">
+                      <div class="stat-line">
+                        <span class="stat-label">الدقة الحالية:</span>
+                        <span class="stat-val mono" id="sim-res-badge">32 × 24</span>
+                      </div>
+                      <div class="stat-line">
+                        <span class="stat-label">إجمالي البكسلات المعالجة:</span>
+                        <span class="stat-val mono text-accent" id="sim-pixel-count">768 بكسل</span>
+                      </div>
+                      <div class="stat-note" id="sim-detail-note">
+                        💡 ملاحظة: عند الدقة 32 × 24، تمثل كل كتلة بكسلية مساحة 10 × 10 بكسل شاشة، مما يسبب ظهور التكعب
+                        والتسنن الواضح للحواف.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 03: Color Depth & Color Channels -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">03</span>
+                <h2>العمق اللوني وقنوات الألوان (Color Depth &amp; Color Channels)</h2>
+              </div>
+              <p class="section-lead">
+                يحدد <strong>العمق اللوني (Color / Bit Depth)</strong> عدد البتات المخصصة لتخزين معلومات اللون لكل بكسل،
+                وهو ما يحدد رياضياً إجمالي عدد الألوان أو مستويات التدرج التي يمكن تمثيلها في الصورة ($2^n$ لون، حيث $n$
+                هو عدد البتات).
+              </p>
+
+              <!-- The 4 Approved Image Types -->
+              <div class="theory-grid-2">
+                <div class="depth-card">
+                  <div class="depth-card-header">
+                    <span class="depth-badge">1-bit</span>
+                    <h4>الصورة الثنائية (1-bit Binary Image)</h4>
+                  </div>
+                  <p>
+                    يُخصص بت واحد فقط لكل بكسل ($2^1 = 2$). البكسل إما أن يكون أسود قيمته <span class="mono">(0)</span>
+                    أو أبيض قيمته <span class="mono">(1)</span>، دون أي تدرجات رمادية. تُستخدم في المستندات الخطية
+                    والفاكس.
+                  </p>
+                  <div class="depth-card-meta mono">2 مستويات فقط • 1 بت/بكسل</div>
+                </div>
+
+                <div class="depth-card">
+                  <div class="depth-card-header">
+                    <span class="depth-badge">8-bit</span>
+                    <h4>التدرج الرمادي (8-bit Grayscale)</h4>
+                  </div>
+                  <p>
+                    يُخصص بايت واحد (8 بت) لكل بكسل ($2^8 = 256$ مستوى). تمثل القيم من <span class="mono">0</span>
+                    (الأسود التام) مروراً بدرجات الرمادي المتعاقبة إلى <span class="mono">255</span> (الأبيض النقي).
+                  </p>
+                  <div class="depth-card-meta mono">256 مستوى شدة ضوئية • بايت واحد/بكسل</div>
+                </div>
+
+                <div class="depth-card">
+                  <div class="depth-card-header">
+                    <span class="depth-badge">24-bit</span>
+                    <h4>الألوان الحقيقية (24-bit True Color RGB)</h4>
+                  </div>
+                  <p>
+                    تتألف من 3 قنوات لونية أساسية: الأحمر والأخضر والأزرق (Red, Green, Blue)، ويُخصص 8 بت لكل قناة (3
+                    بايت لكل بكسل)، مما يوفر:
+                    <span class="mono">256 × 256 × 256 = 16,777,216</span> لوناً حقيقياً يفوق قدرة العين البشرية على
+                    التمييز.
+                  </p>
+                  <div class="depth-card-meta mono">~16.77 مليون لون • 3 بايت/بكسل (8bpc)</div>
+                </div>
+
+                <div class="depth-card">
+                  <div class="depth-card-header">
+                    <span class="depth-badge">32-bit</span>
+                    <h4>الألوان الحقيقية مع الشفافية (32-bit RGBA)</h4>
+                  </div>
+                  <p>
+                    تتضمن قنوات الألوان الثلاث (RGB بمجموع 24 بت) مضافاً إليها قناة رابعة تُعرف بـ <strong>قناة ألفا
+                      (Alpha Channel)</strong> بحجم 8 بت، وهي مخصصة للتحكم بدرجة شفافية البكسل لتسهيل تراكب ودمج الطبقات
+                    الرسومية.
+                  </p>
+                  <div class="depth-card-meta mono">16.77 مليون لون + قناة شفافية Alpha • 4 بايت/بكسل</div>
+                </div>
+              </div>
+
+              <!-- Color Representation Formats -->
+              <div class="color-rep-box">
+                <h4>صيغ التعبير الرقمي عن قيم الألوان في الحاسوب:</h4>
+                <div class="rep-formats-grid">
+                  <div class="rep-item">
+                    <span class="rep-name">التمثيل الثنائي (Binary):</span>
+                    <span class="rep-val mono">11111111 00000000 00000000</span>
+                    <span class="rep-desc">سلاسل البتات المخزنة مباشرة في الذاكرة لكل قناة (R, G, B).</span>
+                  </div>
+                  <div class="rep-item">
+                    <span class="rep-name">التمثيل العشري (Decimal):</span>
+                    <span class="rep-val mono">rgb(255, 0, 0)</span>
+                    <span class="rep-desc">قيم عددية من 0 إلى 255 لكل قناة من القنوات الأساسية.</span>
+                  </div>
+                  <div class="rep-item">
+                    <span class="rep-name">التمثيل الست عشري (Hexadecimal):</span>
+                    <span class="rep-val mono">#FF0000</span>
+                    <span class="rep-desc">زوج من الخانات الست عشرية (00 إلى FF) لكل قناة (Red, Green, Blue).</span>
+                  </div>
+                </div>
+                <div class="note-indexed">
+                  📌 <em>ملاحظة إيضاحية:</em> تُستخدم الألوان المفهرسة (Indexed Color) في تنسيق GIF لاختزال لوحة الألوان
+                  إلى 256 لوناً مختاراً فقط (لوحة Palette)، وذلك لتقليص الحجم مع دعم الرسوم البسيطة والتحريك.
+                </div>
+              </div>
+
+              <!-- Interactive Component B: Bit Depth Visualizer -->
+              <div class="interactive-tool-box">
+                <div class="tool-header">
+                  <div class="tool-title-wrap">
+                    <span class="tool-icon">🎨</span>
+                    <div>
+                      <h3 class="tool-title">مستكشف العمق اللوني والشفافية (Bit Depth &amp; Channels Visualizer)</h3>
+                      <p class="tool-subtitle">قارن بين الأنواع الأربعة المعتمدة واكتشف كيف يؤثر عمق البت على تدرج
+                        الألوان ودور قناة ألفا في الشفافية.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="depth-visualizer-container">
+                  <div class="depth-mode-selector">
+                    <button type="button" class="btn-depth-mode" data-depth="1">
+                      1-bit Binary (ثنائي)
+                    </button>
+                    <button type="button" class="btn-depth-mode" data-depth="8">
+                      8-bit Grayscale (رمادي)
+                    </button>
+                    <button type="button" class="btn-depth-mode active" data-depth="24">
+                      24-bit True Color (RGB)
+                    </button>
+                    <button type="button" class="btn-depth-mode" data-depth="32">
+                      32-bit RGBA (+ الشفافية)
+                    </button>
+                  </div>
+
+                  <div class="depth-preview-stage">
+                    <div class="depth-canvas-box" id="depth-checker-bg">
+                      <canvas id="depth-preview-canvas" width="480" height="140"
+                        aria-label="لوحة عرض مقارنة العمق اللوني"></canvas>
+                    </div>
+                  </div>
+
+                  <div class="depth-info-card" id="depth-info-card">
+                    <div class="depth-info-header">
+                      <h4 id="depth-info-title">24-bit True Color (RGB)</h4>
+                      <span class="badge-tag mono" id="depth-info-bpc">24 بت لكل بكسل (3 بايت)</span>
+                    </div>
+                    <div class="depth-channels-display" id="depth-channels-display">
+                      <div class="channel-pill red"><span class="ch-name">Red (الأحمر):</span> <span
+                          class="ch-val mono">8 بت (0-255)</span></div>
+                      <div class="channel-pill green"><span class="ch-name">Green (الأخضر):</span> <span
+                          class="ch-val mono">8 بت (0-255)</span></div>
+                      <div class="channel-pill blue"><span class="ch-name">Blue (الأزرق):</span> <span
+                          class="ch-val mono">8 بت (0-255)</span></div>
+                    </div>
+                    <p class="depth-info-text" id="depth-info-text">
+                      يسمح بتمثيل ما يقارب 16.77 مليون لون ممزوج بدقة فائقة من القنوات الثلاث الأساسية، وهو المعيار
+                      القياسي للصور الرقمية الواقعية والشاشات الحديثة.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 04: Raster vs Vector -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">04</span>
+                <h2>الصور النقطية مقابل الصور المتجهة (Raster vs. Vector Graphics)</h2>
+              </div>
+              <p class="section-lead">
+                تنقسم الرسوميات الرقمية في الوسائط المتعددة إلى نمطين أساسيين يختلفان جوهرياً في البنية الرياضية وسلوك
+                التكبير ومجالات الاستخدام.
+              </p>
+
+              <div class="raster-vector-comparison">
+                <!-- Raster Column -->
+                <div class="rv-col raster-col">
+                  <div class="rv-header">
+                    <div class="rv-icon">👾</div>
+                    <h3>الصور النقطية (Bitmap / Raster)</h3>
+                    <span class="rv-sub mono">مبنية على شبكة من البكسلات المتقطعة</span>
+                  </div>
+                  <div class="rv-body">
+                    <div class="rv-prop">
+                      <span class="rv-label">البنية الرياضية:</span>
+                      <p>مصفوفة ثابتة ثنائية الأبعاد من البكسلات، كل بكسل يحمل لوناً وإحداثياً محدداً.</p>
+                    </div>
+                    <div class="rv-prop">
+                      <span class="rv-label">سلوك تغيير الحجم (Scaling):</span>
+                      <p>تفقد حدتها عند التكبير؛ حيث تصبح البكسلات الفردية مرئية وتظهر حواف مسننة (Pixelation /
+                        Aliasing).</p>
+                    </div>
+                    <div class="rv-prop">
+                      <span class="rv-label">الاستخدام الأمثل:</span>
+                      <p>الصور الفوتوغرافية الحقيقية والمشاهد الغنية بالتدرجات اللونية المعقدة والتفاصيل الواقعية.</p>
+                    </div>
+                    <div class="rv-prop">
+                      <span class="rv-label">أشهر الصيغ:</span>
+                      <p class="mono">JPEG, PNG, GIF, BMP, WebP</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Vector Column -->
+                <div class="rv-col vector-col">
+                  <div class="rv-header">
+                    <div class="rv-icon">✒️</div>
+                    <h3>الصور المتجهة (Vector Graphics)</h3>
+                    <span class="rv-sub mono">مبنية على معادلات وأشكال هندسية رياضية</span>
+                  </div>
+                  <div class="rv-body">
+                    <div class="rv-prop">
+                      <span class="rv-label">البنية الرياضية:</span>
+                      <p>كائنات ومعادلات رياضية تمثل نقاطاً وخطوطاً ومضلعات ومنحنيات وألوان تعبئة.</p>
+                    </div>
+                    <div class="rv-prop">
+                      <span class="rv-label">سلوك تغيير الحجم (Scaling):</span>
+                      <p>تحافظ على حدة الحواف وانسيابية المنحنيات التامة عند أي تكبير أو تصغير دون أدنى تشوه بكسلي.</p>
+                    </div>
+                    <div class="rv-prop">
+                      <span class="rv-label">الاستخدام الأمثل:</span>
+                      <p>الشعارات (Logos)، الأيقونات، الرسوم التوضيحية، والخطوط الطباعية والتصاميم الهندسية.</p>
+                    </div>
+                    <div class="rv-prop">
+                      <span class="rv-label">أشهر الصيغ:</span>
+                      <p class="mono">SVG, EPS, AI, PDF</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 05: Raw Image File Size Calculation + Calculator -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">05</span>
+                <h2>حساب حجم ملف الصورة الخام (Image File Size)</h2>
+              </div>
+              <p class="section-lead">
+                يُقصد بحجم الصورة الخام كمية البيانات الرقمية المطلوبة لتمثيل مصفوفة البكسلات بشكل نظري ومجرد قبل تطبيق
+                أي خوارزميات ضغط أو إضافة بيانات ترويسة الملف (Header Metadata).
+              </p>
+
+              <!-- Main Approved Formula -->
+              <div class="formula-card">
+                <div class="formula-title">معادلة حساب حجم بيانات الصورة الخام المعتمدة في المساق:</div>
+                <div class="formula-expression mono">
+                  الحجم بالبايت (Size in Bytes) = (العرض × الارتفاع × عمق البت) ÷ 8
+                </div>
+                <div class="formula-desc">
+                  حيث يُقسم الناتج على <span class="mono">8</span> للتحويل من بت (Bits) إلى بايت (Bytes)، لأن كل 1 بايت
+                  = 8 بت.
+                </div>
+              </div>
+
+              <!-- Step by Step Math -->
+              <div class="calc-steps-explainer">
+                <h4>خطوات التسلسل الحسابي القياسي:</h4>
+                <ol class="steps-numbered-list">
+                  <li><strong>إجمالي البكسلات:</strong> <span class="mono">Total Pixels = Width × Height</span></li>
+                  <li><strong>إجمالي الحجم بالبت (Bits):</strong> <span class="mono">Total Bits = Total Pixels × Bit
+                      Depth</span></li>
+                  <li><strong>الحجم بالبايت (Bytes):</strong> <span class="mono">Size in Bytes = Total Bits ÷ 8</span>
+                  </li>
+                  <li><strong>التحويل إلى كيلوبايت (KB):</strong> <span class="mono">Size in KB = Size in Bytes ÷
+                      1024</span></li>
+                  <li><strong>التحويل إلى ميجابايت (MB):</strong> <span class="mono">Size in MB = Size in KB ÷
+                      1024</span></li>
+                </ol>
+                <div class="methodology-callout">
+                  ⚠️ <strong>توضيح منهجي هام:</strong> تحسب هذه المعادلة الحجم النظري المجرد لبيانات البكسل غير
+                  المضغوطة. يختلف حجم التخزين الفعلي على وسائط التخزين بناءً على نوع ترميز الملف وضغطه وبيانات الترويسة
+                  المرفقة به.
+                </div>
+              </div>
+
+              <!-- Interactive Component C: Image File Size Calculator -->
+              <div class="interactive-tool-box">
+                <div class="tool-header">
+                  <div class="tool-title-wrap">
+                    <span class="tool-icon">🧮</span>
+                    <div>
+                      <h3 class="tool-title">الحاسبة الأكاديمية لحجم الصور (Raw Image File Size Calculator)</h3>
+                      <p class="tool-subtitle">أدخل أبعاد الصورة وعمق البت المطلوب لحساب حجم بيانات البكسل الخام خطوة
+                        بخطوة بالبايت والكيلوبايت والميجابايت.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="calc-tool-body">
+                  <div class="calc-presets-row">
+                    <span class="preset-label">دقات سريعة شائعة:</span>
+                    <button type="button" class="btn-preset active" data-w="1920" data-h="1080">FHD (1920 ×
+                      1080)</button>
+                    <button type="button" class="btn-preset" data-w="1280" data-h="720">HD (1280 × 720)</button>
+                    <button type="button" class="btn-preset" data-w="800" data-h="600">SVGA (800 × 600)</button>
+                    <button type="button" class="btn-preset" data-w="64" data-h="64">Icon (64 × 64)</button>
+                  </div>
+
+                  <div class="calc-inputs-grid">
+                    <div class="calc-input-group">
+                      <label for="calc-img-w">العرض بالبكسل (Width):</label>
+                      <input type="number" id="calc-img-w" class="calc-input mono" value="1920" min="1" max="16384">
+                    </div>
+                    <div class="calc-input-group">
+                      <label for="calc-img-h">الارتفاع بالبكسل (Height):</label>
+                      <input type="number" id="calc-img-h" class="calc-input mono" value="1080" min="1" max="16384">
+                    </div>
+                    <div class="calc-input-group">
+                      <label for="calc-img-depth">العمق اللوني المعتمد (Bit Depth):</label>
+                      <select id="calc-img-depth" class="calc-select mono">
+                        <option value="1">1-bit Binary (ثنائي - أبيض وأسود)</option>
+                        <option value="8">8-bit Grayscale (تدرج رمادي - 256 مستوى)</option>
+                        <option value="24" selected>24-bit True Color (RGB - ألوان حقيقية)</option>
+                        <option value="32">32-bit RGBA (RGB + قناة الشفافية)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="calc-result-display">
+                    <div class="calc-breakdown-box">
+                      <div class="breakdown-title">خطوات العملية الحسابية التفصيلية:</div>
+                      <div id="calc-steps-output" class="breakdown-steps mono">
+                        1) إجمالي البكسلات = 1920 × 1080 = 2,073,600 بكسل<br>
+                        2) إجمالي البتات = 2,073,600 × 24 = 49,766,400 بت<br>
+                        3) الحجم بالبايت = 49,766,400 ÷ 8 = 6,220,800 بايت
+                      </div>
+                    </div>
+
+                    <div class="calc-summary-badge">
+                      <div class="badge-label">الحجم النظري الخام غير المضغوط:</div>
+                      <div class="badge-number mono" id="calc-size-result">6,220,800 Bytes</div>
+                      <div class="badge-subunits mono" id="calc-size-subunits">≈ 6,075 KB • 5.93 MB</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 06: Brief Supporting Topics -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">06</span>
+                <h2>مفاهيم مساندة في معالجة الصور (Brief Supporting Topics)</h2>
+              </div>
+              <p class="section-lead">
+                مجموعة من المفاهيم التكميلية الأساسية التي ترتبط ارتباطاً وثيقاً بتمثيل واستخدام الصور في مشاريع الوسائط
+                المتعددة.
+              </p>
+
+              <div class="theory-grid-2">
+                <div class="concept-card">
+                  <div class="concept-card-icon">📐</div>
+                  <div class="concept-card-body">
+                    <h3>نسبة التناسب (Aspect Ratio)</h3>
+                    <p>
+                      النسبة النسبية بين عرض الصورة وارتفاعها (<span class="mono">W : H</span>). من أشهر النسب القياسية:
+                      <span class="mono">4:3</span> (التلفزيون والشاشات الكلاسيكية)، و<span class="mono">16:9</span>
+                      (الشاشات العريضة والفيديو عالي الدقة HD). الحفاظ عليها يمنع تشوه وتمدد المحتوى.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔄</div>
+                  <div class="concept-card-body">
+                    <h3>إعادة تشكيل العينات والاستيفاء (Resampling &amp; Interpolation)</h3>
+                    <p>
+                      العملية الرياضية لتقدير وتوليد بكسلات جديدة عند تغيير أبعاد الصورة. من أشهر طرق الاستيفاء:
+                      <strong>Nearest Neighbor</strong> (الأسرع ويسبب حواف مسننة)، و<strong>Bilinear</strong> (توسط
+                      خطي)، و<strong>Bicubic</strong> (أكثر نعومة واحتفاظاً بالتفاصيل).
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🗜️</div>
+                  <div class="concept-card-body">
+                    <h3>الضغط الفاقد وغير الفاقد (Lossy vs Lossless)</h3>
+                    <p>
+                      <strong>غير الفاقد (Lossless):</strong> يقلل حجم الملف مع إمكانية استعادة بيانات الصورة الأصلية
+                      بنسبة 100% دون أي خسارة في الجودة.<br>
+                      <strong>الفاقد (Lossy):</strong> يقلل الحجم بنسب كبيرة عن طريق حذف معلومات بصرية دقيقة لا تلاحظها
+                      العين المجردة بسهولة.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">📁</div>
+                  <div class="concept-card-body">
+                    <h3>أبرز صيغ وتنسيقات الصور الرقمية</h3>
+                    <p>
+                      <strong>GIF:</strong> ألوان مفهرسة حتى 256 لوناً، ضغط غير فاقد، يدعم التحريك.<br>
+                      <strong>PNG:</strong> ضغط غير فاقد ممتاز، يدعم الألوان الحقيقية وقناة الشفافية (Alpha).<br>
+                      <strong>JPEG:</strong> ضغط فاقد ممتاز للصور الفوتوغرافية الطبيعية الغنية بالألوان.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 07: Course-Aligned Quiz -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">07</span>
+                <h2>اختبار الفهم والتقييم الذاتي (Knowledge Check)</h2>
+              </div>
+              <p class="section-lead">
+                اختبر استيعابك للمفاهيم الأساسية في درس الصور والبكسلات من خلال الإجابة على الأسئلة الثلاثة التالية
+                المعتمدة من المنهج:
+              </p>
+
+              <div class="quiz-container">
+                <!-- Question 1 -->
+                <div class="quiz-card-img" data-quiz="1" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">1</span>
+                    <p>إذا كانت صورة رقمية بعرض 600 بكسل، وعُرضت على شاشة بكثافة 300 PPI، فما هو العرض الفيزيائي الفعلي
+                      للصورة بالبوصة؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt-img" data-index="0">أ) 0.5 بوصة (300 ÷ 600)</button>
+                    <button type="button" class="quiz-opt-img" data-index="1">ب) 2 بوصة (600 ÷ 300)</button>
+                    <button type="button" class="quiz-opt-img" data-index="2">ج) 180,000 بوصة (600 × 300)</button>
+                  </div>
+                  <div class="quiz-feedback-img" hidden></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-card-img" data-quiz="2" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">2</span>
+                    <p>ما هو الفارق الأساسي بين صورة ذات عمق لوني 24-bit RGB وصورة ذات عمق 32-bit RGBA؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt-img" data-index="0">أ) صورة 32-bit تحتوي على ألوان إضافية في
+                      قنوات RGB تفوق 16.77 مليون لون بكثير.</button>
+                    <button type="button" class="quiz-opt-img" data-index="1">ب) صورة 32-bit تضيف قناة ألفا (Alpha
+                      Channel) للتحكم بالشفافية وتراكب العناصر الرسومية.</button>
+                    <button type="button" class="quiz-opt-img" data-index="2">ج) صورة 32-bit مخصصة حصراً للطباعة بنظام
+                      الألوان الطرحية CMYK.</button>
+                  </div>
+                  <div class="quiz-feedback-img" hidden></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-card-img" data-quiz="3" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">3</span>
+                    <p>صورة نقطية غير مضغوطة أبعادها 800 × 600 بكسل وبعمق لوني 24-bit (3 بايت لكل بكسل)، ما هو حجم
+                      بياناتها الخام بالبايت؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt-img" data-index="0">أ) 480,000 بايت</button>
+                    <button type="button" class="quiz-opt-img" data-index="1">ب) 1,440,000 بايت (حوالي 1.37
+                      ميجابايت)</button>
+                    <button type="button" class="quiz-opt-img" data-index="2">ج) 11,520,000 بايت</button>
+                  </div>
+                  <div class="quiz-feedback-img" hidden></div>
+                </div>
+
+                <div class="quiz-actions">
+                  <button type="button" class="btn-sm btn-control accent" id="btn-reset-quiz-img">↺ إعادة محاولة اختبار
+                    الدرس</button>
+                  <span id="quiz-summary-score-img" class="quiz-score-badge mono">النتيجة: -- / 3</span>
+                </div>
+              </div>
+            </section>
+          </article>
+
+          <!-- ======================================================== -->
+          <!-- FULL LESSON 3: Color Models & Perception                 -->
+          <!-- ======================================================== -->
+          <article class="theory-lesson-content" id="lesson-colors" style="display: none;">
+            <!-- Lesson Hero -->
+            <div class="theory-lesson-hero">
+              <div class="lesson-badge">الدرس الثالث • النماذج اللونية وتطبيقاتها</div>
+              <h1 class="lesson-hero-title">النماذج اللونية وإدراك الألوان (Color Models &amp; Perception)</h1>
+              <p class="lesson-hero-desc">
+                استكشف في هذا الدرس قدرة العين البشرية على إدراك وتمييز الألوان، الفارق الجوهري بين النماذج اللونية
+                الجمعية والطرّحية، المقارنة بين نموذج الفنون الكلاسيكي RYB ونظام الطباعة الحديث CMY/CMYK، وصيغ التعبير
+                الرقمي عن الألوان في بيئات الوسائط المتعددة.
+              </p>
+            </div>
+
+            <!-- Section 01: Human Color Perception -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">01</span>
+                <h2>إدراك الألوان في العين البشرية (Human Color Perception)</h2>
+              </div>
+              <p class="section-lead">
+                يُعد <strong>اللون (Color)</strong> إحساساً بصرياً ينشأ عند وصول الضوء إلى العين البشرية، حيث تمتلك
+                العين
+                قدرة فائقة على التمييز اللوني والمقارنة بين درجات الإضاءة المختلفة.
+              </p>
+
+              <div class="theory-grid-2">
+                <div class="concept-card">
+                  <div class="concept-card-icon">👁️</div>
+                  <div class="concept-card-body">
+                    <h3>نطاق تمييز العين البشرية (Visual Capacity)</h3>
+                    <p>
+                      تستطيع العين البشرية السليمة التمييز بين ما يقارب <strong>7 إلى 9 ملايين لون مختلف</strong>. هذا
+                      النطاق الحسي الواسع يمثل المقياس المرجعي الأساسي لتصميم أنظمة العرض والتصوير الرقمي لضمان محاكاة
+                      واقعية لتدرجات المشاهد الطبيعية.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">⚡</div>
+                  <div class="concept-card-body">
+                    <h3>اللون في الوسائط المتعددة (Color in Multimedia)</h3>
+                    <p>
+                      يُشكل اللون عنصراً جوهرياً في تكوين الصورة وإيصال الرسالة البصرية، وتسعى أنظمة الوسائط الرقمية إلى
+                      توفير تمثيل لوني يلائم قدرة الإبصار البشري ويحقق تجربة مرئية متوازنة.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 02: Additive Color Model (RGB) -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">02</span>
+                <h2>النموذج اللوني الجمعي: نظام RGB (Additive Color Model)</h2>
+              </div>
+              <p class="section-lead">
+                يُستخدم <strong>النموذج اللوني الجمعي (Additive Model)</strong> في كافة الأجهزة التي تصدر ضوءاً ذاتياً
+                مباشراً نحو عين المشاهد، مثل شاشات الحواسيب والهواتف وأجهزة التلفزيون والإسقاط الضوئي.
+              </p>
+
+              <div class="theory-grid-3">
+                <div class="concept-card">
+                  <div class="concept-card-icon">💡</div>
+                  <div class="concept-card-body">
+                    <h3>المبدأ الفيزيائي: الضوء المنبعث</h3>
+                    <p>
+                      نقطة البداية هي <strong>الظلام التام (الأسود)</strong> عند انعدام أي انبعاث ضوئي. تُضاف حزم الضوء
+                      الملونة تدريجياً لرفع شدة الإضاءة الكلية وصولاً إلى <strong>الأبيض التام</strong> عند تشغيل
+                      القنوات
+                      بكامل طاقتها.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔴</div>
+                  <div class="concept-card-body">
+                    <h3>الألوان الأساسية (Primary Colors)</h3>
+                    <p>
+                      يعتمد النموذج على 3 ألوان ضوئية أولية:
+                      <br>
+                      • <strong>الأحمر (Red)</strong>
+                      <br>
+                      • <strong>الأخضر (Green)</strong>
+                      <br>
+                      • <strong>الأزرق (Blue)</strong>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">✨</div>
+                  <div class="concept-card-body">
+                    <h3>الألوان الثانوية (Secondary Colors)</h3>
+                    <p>
+                      تتولد عن مزج كل زوج من الأضواء الأساسية:
+                      <br>
+                      • أحمر + أخضر = <strong>أصفر (Yellow)</strong>
+                      <br>
+                      • أخضر + أزرق = <strong>سماوي (Cyan)</strong>
+                      <br>
+                      • أحمر + أزرق = <strong>أرجواني (Magenta)</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 03: Subtractive Color Models -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">03</span>
+                <h2>النماذج اللونية الطرّحية: نموذج RYB ونظام CMY/CMYK (Subtractive Color Models)</h2>
+              </div>
+              <p class="section-lead">
+                تعتمد <strong>النماذج اللونية الطرّحية (Subtractive Models)</strong> على الضوء المنعكس واستخدام الأصباغ
+                والأحبار التي تمتص (تطرح) أطوالاً موجية محددة من الضوء الأبيض الساقط، وتعكس الأطوال الباقية للعين.
+              </p>
+
+              <div class="theory-grid-2">
+                <div class="concept-card">
+                  <div class="concept-card-icon">🎨</div>
+                  <div class="concept-card-body">
+                    <h3>1) نموذج RYB التقليدي (الفنون والرسم)</h3>
+                    <p>
+                      النموذج اللوني الكلاسيكي المعتمد تاريخياً في مدارس الفنون التشكيلية والطلاء اليدوي:
+                      <br>
+                      • <strong>الألوان الأساسية:</strong> الأحمر (Red)، الأصفر (Yellow)، الأزرق (Blue).
+                      <br>
+                      • <strong>الألوان الثانوية:</strong> البرتقالي، الأخضر، والبنفسجي.
+                      <br>
+                      يمثل أساساً تعليمياً وتاريخياً لنظرية الألوان التعبيرية، لكنه يمتلك نطاقاً لونياً محدوداً لا يناسب
+                      متطلبات الطباعة الصناعية الدقيقة.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🖨️</div>
+                  <div class="concept-card-body">
+                    <h3>2) نظام CMY / CMYK الحديث (المطابع الرقمية)</h3>
+                    <p>
+                      نموذج لوني طرّحي يُستخدم على نطاق واسع في أنظمة الطباعة التجارية والمكتبية:
+                      <br>
+                      • <strong>السماوي (Cyan):</strong> يطرح ويمتص اللون الأحمر.
+                      <br>
+                      • <strong>الأرجواني (Magenta):</strong> يطرح ويمتص اللون الأخضر.
+                      <br>
+                      • <strong>الأصفر (Yellow):</strong> يطرح ويمتص اللون الأزرق.
+                      <br>
+                      • <strong>الأسود (Key / Black - K):</strong> الحبر الأساسي للتباين والنصوص.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enrichment Note: K Channel -->
+              <div class="note-indexed">
+                📌 <strong>ملاحظة إثرائية (Enrichment Context): لماذا يُضاف الحبر الأسود (قناة K) في الطباعة؟</strong>
+                <br>
+                نظرياً، خلط أحبار السماوي والأرجواني والأصفر بنسب كاملة يمتص الضوء بالكامل لينتج الأسود. لكن عملياً،
+                وبسبب الشوائب الكيميائية والخواص الفيزيائية للأحبار، ينتج خلطها لوناً بنياً أو رمادياً موحلاً داكناً.
+                لذلك يُضاف حبر أسود نقي مستقل (يسمى Key لضبط تباين الطابعة) لطباعة نصوص واضحة وعميقة، وحماية الورق من
+                التشبع الزائد بالأحبار، وتخفيض تكاليف الإنتاج.
+              </div>
+
+              <!-- Comparison Table -->
+              <div class="color-rep-box">
+                <h4>مقارنة موجزة بين النماذج اللونية الرئيسية:</h4>
+                <div class="table-responsive-wrapper">
+                  <table class="theory-table">
+                    <thead>
+                      <tr>
+                        <th>النموذج</th>
+                        <th>النوع الفيزيائي</th>
+                        <th>الألوان الأساسية</th>
+                        <th>نقطة البداية</th>
+                        <th>الناتج الكلي للمزج</th>
+                        <th>مجال الاستخدام</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>RGB</strong></td>
+                        <td>جمعي (Additive)</td>
+                        <td>أحمر، أخضر، أزرق</td>
+                        <td>الأسود (انعدام الضوء)</td>
+                        <td>أبيض ناصع</td>
+                        <td>الشاشات، الهواتف، كاميرات الفيديو، الويب</td>
+                      </tr>
+                      <tr>
+                        <td><strong>RYB</strong></td>
+                        <td>طرّحي (Subtractive)</td>
+                        <td>أحمر، أصفر، أزرق</td>
+                        <td>الأبيض (خلفية الرسم)</td>
+                        <td>ناتج داكن أو منخفض التشبع</td>
+                        <td>الفنون التشكيلية والرسم والطلاء اليدوي</td>
+                      </tr>
+                      <tr>
+                        <td><strong>CMYK</strong></td>
+                        <td>طرّحي (Subtractive)</td>
+                        <td>سماوي، أرجواني، أصفر + أسود</td>
+                        <td>الأبيض (ورق الطباعة)</td>
+                        <td>أسود عميق (مع قناة K)</td>
+                        <td>الطباعة الرقمية والأوفست والمجلات والكتب</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 04: Digital Color Representation -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">04</span>
+                <h2>التمثيل الرقمي للألوان في الحواسيب (Digital Color Representation)</h2>
+              </div>
+              <p class="section-lead">
+                تُترجم المعلومات اللونية في أنظمة الحوسبة إلى بيانات عددية دقيقة تخزن في الذاكرة وتُنقل عبر بطاقات
+                الشاشة. تُستخدم ثلاث صيغ رئيسية متزامنة للتعبير عن شدة القنوات الضوئية:
+              </p>
+
+              <div class="theory-grid-3">
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔢</div>
+                  <div class="concept-card-body">
+                    <h3>1) النظام العشري (Decimal / RGB)</h3>
+                    <p>
+                      يُحدد شدة كل قناة ضوئية بقيمة عددية صحيحة تتراوح من <span class="mono">0</span> (إطفاء تام) إلى
+                      <span class="mono">255</span> (أقصى سطوع):
+                      <br>
+                      <span class="mono formula-box">rgb(255, 128, 0)</span>
+                      <br>
+                      صيغة برمجية بديهية لقراءة وتعيين نسب الضوء في لغات البرمجة والوسائط.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">🔤</div>
+                  <div class="concept-card-body">
+                    <h3>2) النظام الست عشري (Hexadecimal)</h3>
+                    <p>
+                      صيغة مقتضبة تتألف من 6 خانات مسبوقة برمز <span class="mono">#</span> في نظام العد السادس عشر
+                      (0-9، A-F):
+                      <br>
+                      <span class="mono formula-box">#FF8000</span>
+                      <br>
+                      يمثل كل زوج من الحروف بايت كامل لقناة واحدة: <span class="mono">#RR GG BB</span>. الصيغة القياسية
+                      الأكثر انتشاراً في صفحات الويب وتصميم الواجهات.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="concept-card">
+                  <div class="concept-card-icon">💻</div>
+                  <div class="concept-card-body">
+                    <h3>3) النظام الثنائي (Binary)</h3>
+                    <p>
+                      يمثل هذا المثال قيمة اللون باستخدام ثلاث قنوات من 8 بت (بمجموع 24 بت):
+                      <br>
+                      <span class="mono formula-box">11111111 10000000 00000000</span>
+                      <br>
+                      حيث تُخصص سلسلة من 8 بتات ثنائية (0 و 1) لكل قناة من القنوات الثلاث (R, G, B).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 05: Interactive Color Labs -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">05</span>
+                <h2>المختبرات التفاعلية لاستكشاف ومقارنة الألوان (Interactive Color Labs)</h2>
+              </div>
+              <p class="section-lead">
+                جرّب بنفسك التفاعل مع قنوات الضوء في مازج RGB واستكشف التحويل الفوري للأكواد الرقمية، ثم قارن بين سلوك
+                مزج الضوء الجمعي ومزج الأحبار الطرّحي في مختبر فين التفاعلي.
+              </p>
+
+              <!-- Lab A: RGB Mixer & Code Explorer -->
+              <div class="interactive-tool-box">
+                <div class="tool-header">
+                  <div class="tool-title-wrap">
+                    <span class="tool-icon">🎛️</span>
+                    <div>
+                      <h3 class="tool-title">المختبر (أ): مازج ألوان RGB ومستكشف الأكواد الرقمية المتزامن</h3>
+                      <p class="tool-subtitle">عدّل شدة قنوات الضوء الثلاث وشاهد فورياً اللون الناتج وتغير شفراته
+                        المتزامنة بالعشري والست عشري والثنائي.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="color-mixer-container">
+                  <!-- Sliders Panel -->
+                  <div class="color-sliders-panel">
+                    <!-- Red Slider -->
+                    <div class="color-slider-row color-row-red">
+                      <div class="color-slider-header">
+                        <label for="color-slider-r">قناة الأحمر (Red):</label>
+                        <span class="mono color-val-badge" id="color-val-r">230</span>
+                      </div>
+                      <input type="range" id="color-slider-r" min="0" max="255" value="230"
+                        class="color-range-input range-red" aria-label="قيمة قناة الأحمر">
+                    </div>
+
+                    <!-- Green Slider -->
+                    <div class="color-slider-row color-row-green">
+                      <div class="color-slider-header">
+                        <label for="color-slider-g">قناة الأخضر (Green):</label>
+                        <span class="mono color-val-badge" id="color-val-g">57</span>
+                      </div>
+                      <input type="range" id="color-slider-g" min="0" max="255" value="57"
+                        class="color-range-input range-green" aria-label="قيمة قناة الأخضر">
+                    </div>
+
+                    <!-- Blue Slider -->
+                    <div class="color-slider-row color-row-blue">
+                      <div class="color-slider-header">
+                        <label for="color-slider-b">قناة الأزرق (Blue):</label>
+                        <span class="mono color-val-badge" id="color-val-b">70</span>
+                      </div>
+                      <input type="range" id="color-slider-b" min="0" max="255" value="70"
+                        class="color-range-input range-blue" aria-label="قيمة قناة الأزرق">
+                    </div>
+
+                    <!-- Quick Color Presets -->
+                    <div class="color-presets-wrapper">
+                      <span class="color-presets-label">ألوان سريعة جاهزة:</span>
+                      <div class="color-presets-list">
+                        <button type="button" class="btn-sm btn-color-preset" data-r="255" data-g="0" data-b="0">أحمر
+                          خالص</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="0" data-g="255" data-b="0">أخضر
+                          خالص</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="0" data-g="0" data-b="255">أزرق
+                          خالص</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="255" data-g="255" data-b="0">أصفر
+                          (R+G)</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="0" data-g="255" data-b="255">سماوي
+                          (G+B)</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="255" data-g="0"
+                          data-b="255">أرجواني (R+B)</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="255" data-g="255"
+                          data-b="255">أبيض (الكل)</button>
+                        <button type="button" class="btn-sm btn-color-preset" data-r="0" data-g="0" data-b="0">أسود
+                          (إطفاء)</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Color Preview & Synchronized Codes -->
+                  <div class="color-preview-panel">
+                    <div class="color-swatch-box" id="color-preview-box" aria-label="معاينة اللون الناتج">
+                      <span class="color-swatch-text" id="color-swatch-text">المعاينة الحية</span>
+                    </div>
+
+                    <div class="color-codes-grid">
+                      <div class="color-code-card">
+                        <span class="code-card-type">التمثيل العشري (Decimal):</span>
+                        <span class="code-card-val mono" id="color-code-decimal">rgb(230, 57, 70)</span>
+                      </div>
+                      <div class="color-code-card">
+                        <span class="code-card-type">التمثيل الست عشري (Hex):</span>
+                        <span class="code-card-val mono" id="color-code-hex">#E63946</span>
+                      </div>
+                      <div class="color-code-card">
+                        <span class="code-card-type">التمثيل الثنائي (24-bit Binary):</span>
+                        <span class="code-card-val mono" id="color-code-binary">11100110 00111001 01000110</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lab B: Additive vs. Subtractive Venn Lab -->
+              <div class="interactive-tool-box">
+                <div class="tool-header">
+                  <div class="tool-title-wrap">
+                    <span class="tool-icon">🔬</span>
+                    <div>
+                      <h3 class="tool-title">المختبر (ب): مقارنة المزج الجمعي والطرّحي (Additive vs. Subtractive Lab)
+                      </h3>
+                      <p class="tool-subtitle">بدّل بين وضع مزج الضوء ووضع مزج الأحبار لاكتشاف كيفية توليد الألوان
+                        الثانوية وناتج التداخل الكلي.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Mode Switcher -->
+                <div class="venn-mode-switcher">
+                  <button type="button" class="btn-venn-mode active" id="color-btn-additive" data-mode="additive">
+                    النموذج الجمعي: حزم الضوء (RGB)
+                  </button>
+                  <button type="button" class="btn-venn-mode" id="color-btn-subtractive" data-mode="subtractive">
+                    النموذج الطرّحي: أحبار الطباعة (CMY)
+                  </button>
+                </div>
+
+                <div class="venn-stage-wrapper" id="color-venn-wrapper">
+                  <!-- Venn Stage -->
+                  <div class="venn-stage mode-additive" id="color-venn-stage">
+                    <div class="venn-circle venn-c1" id="color-venn-circle-1">
+                      <span class="venn-label" id="color-venn-label-1">Red</span>
+                    </div>
+                    <div class="venn-circle venn-c2" id="color-venn-circle-2">
+                      <span class="venn-label" id="color-venn-label-2">Green</span>
+                    </div>
+                    <div class="venn-circle venn-c3" id="color-venn-circle-3">
+                      <span class="venn-label" id="color-venn-label-3">Blue</span>
+                    </div>
+                    <div class="venn-center-badge" id="color-venn-center">White (أبيض)</div>
+                  </div>
+
+                  <!-- Explanatory State Sidebar -->
+                  <div class="venn-info-box" id="color-venn-info">
+                    <h4 id="color-venn-title">النموذج الجمعي (RGB Light Synthesis)</h4>
+                    <ul class="venn-rules-list" id="color-venn-rules">
+                      <li><strong>الخلفية:</strong> سوداء تمثل انعدام الإضاءة في الشاشات.</li>
+                      <li><strong>تراكب زوجي:</strong> R + G = أصفر (Yellow)، G + B = سماوي (Cyan)، R + B = أرجواني
+                        (Magenta).</li>
+                      <li><strong>التراكب الكلي بالمركز:</strong> دمج كافة حزم الضوء ينتج <strong>الأبيض التام</strong>
+                        ($R + G + B = \text{White}$).</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Educational Note about Blend Modes Limitation -->
+                <div class="note-indexed">
+                  📌 <strong>ملاحظة تعليمية هامة حول المحاكاة البصرية:</strong>
+                  <br>
+                  تُحاكي هذه الأداة المزج الطرّحي رقمياً على شاشة الحاسوب باستخدام خاصية التراكب الرياضي (CSS
+                  <span class="mono">mix-blend-mode: multiply</span>)، والتي تحسب نظرياً حاصل الضرب الحسابي لمستويات
+                  الضوء
+                  لينتج أسوداً تاماً في المركز. في حين أن خلط الأصباغ والأحبار المادية في الواقع يخضع لامتصاص طيفي غير
+                  كامل وشوائب فيزيائية، مما ينتج عنه لون بني موحل وليس أسوداً ناصعاً، وهو ما يبرر استخدام الحبر الأسود
+                  المستقل (قناة K) في المطابع الفعلية.
+                </div>
+              </div>
+            </section>
+
+            <!-- Section 06: Knowledge Check Quiz -->
+            <section class="theory-section">
+              <div class="section-title-wrap">
+                <span class="section-badge-num">06</span>
+                <h2>اختبار الفهم والتقييم الذاتي (Knowledge Check)</h2>
+              </div>
+              <p class="section-lead">
+                اختبر استيعابك للمفاهيم الأساسية في درس النماذج اللونية وإدراك الألوان من خلال الإجابة على الأسئلة
+                الثلاثة
+                التالية المعتمدة من المنهج:
+              </p>
+
+              <div class="quiz-container">
+                <!-- Question 1 -->
+                <div class="quiz-card-color" data-quiz="1" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">1</span>
+                    <p>كم يبلغ تقريباً عدد الألوان المختلفة التي تستطيع العين البشرية السليمة التمييز بينها؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt-color" data-index="0">أ) حوالي 256 لوناً فقط.</button>
+                    <button type="button" class="quiz-opt-color" data-index="1">ب) ما بين 7 إلى 9 ملايين لون
+                      تقريباً.</button>
+                    <button type="button" class="quiz-opt-color" data-index="2">ج) ما يزيد عن 100 مليون لون
+                      مختلف.</button>
+                  </div>
+                  <div class="quiz-feedback-color" hidden></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-card-color" data-quiz="2" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">2</span>
+                    <p>ما هو الفارق الجوهري بين النموذج اللوني الجمعي (RGB) والنموذج اللوني الطرّحي (CMYK)؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt-color" data-index="0">أ) RGB يعتمد على الأحبار والضوء المنعكس،
+                      بينما CMYK يعتمد على الضوء المنبعث من الشاشات.</button>
+                    <button type="button" class="quiz-opt-color" data-index="1">ب) RGB يعتمد على إضافة حزم الضوء المنبعث
+                      ونقطة بدايته الأسود، بينما CMYK يعتمد على امتصاص الضوء المنعكس من الصبغات ونقطة بدايته
+                      الأبيض.</button>
+                    <button type="button" class="quiz-opt-color" data-index="2">ج) لا يوجد أي فارق فيزيائي؛ كلاهما
+                      يستخدم نفس الألوان الأساسية ونفس التطبيقات الميدانية.</button>
+                  </div>
+                  <div class="quiz-feedback-color" hidden></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-card-color" data-quiz="3" data-correct="1">
+                  <div class="quiz-question">
+                    <span class="quiz-q-num">3</span>
+                    <p>ما هو التمثيل الرقمي الست عشري (Hexadecimal) الصحيح للون الأخضر النقي الكامل الذي قيمته العشرية
+                      rgb(0, 255, 0)؟</p>
+                  </div>
+                  <div class="quiz-options">
+                    <button type="button" class="quiz-opt-color" data-index="0">أ) #FF0000</button>
+                    <button type="button" class="quiz-opt-color" data-index="1">ب) #00FF00</button>
+                    <button type="button" class="quiz-opt-color" data-index="2">ج) #0000FF</button>
+                  </div>
+                  <div class="quiz-feedback-color" hidden></div>
+                </div>
+
+                <div class="quiz-actions">
+                  <button type="button" class="btn-sm btn-control accent" id="btn-reset-quiz-color">↺ إعادة محاولة
+                    اختبار الدرس</button>
+                  <span id="quiz-summary-score-color" class="quiz-score-badge mono">النتيجة: -- / 3</span>
                 </div>
               </div>
             </section>

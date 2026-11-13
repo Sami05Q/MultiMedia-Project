@@ -533,6 +533,11 @@ navTabs.forEach((tab) => {
       toggleCompPlayback();
     }
 
+    // If leaving Theory Hub while playing integrator audio, safely pause and reset
+    if (targetTabId !== 'tab-theory') {
+      stopIntegratorAudio();
+    }
+
     // Update active tab buttons
     navTabs.forEach((t) => t.classList.remove('active'));
     tab.classList.add('active');
@@ -1557,16 +1562,6 @@ selectLayer(initialMainTextLayer.id);
 
 // Metadata for upcoming topics (Coming Soon)
 const upcomingTopicsData = {
-  images: {
-    icon: '🖼️',
-    title: 'الصور والبكسلات (Images & Pixels)',
-    desc: 'سيتم تدشين هذا الدرس التفاعلي في المرحلة القادمة ليغطي التمثيل الرياضي للبكسلات، الفرق بين الصور النقطية (Raster) والمتجهة (Vector)، دقة العرض (Resolution)، وعمق الألوان (Color Depth).'
-  },
-  colors: {
-    icon: '🎨',
-    title: 'النماذج اللونية (Color Models - RGB)',
-    desc: 'سيتم تدشين هذا الدرس التفاعلي في المرحلة القادمة ليغطي فضاء الألوان الجمعي (Additive RGB)، والطباعي (Subtractive CMYK)، ومعادلات قنوات الألوان وقناة الشفافية (Alpha Channel).'
-  },
   animation: {
     icon: '🎬',
     title: 'أساسيات التحريك (Animation Fundamentals)',
@@ -1589,6 +1584,8 @@ const theoryHubWrapper = document.getElementById('theory-hub-wrapper');
 const theoryMapView = document.getElementById('theory-map-view');
 const theoryLessonView = document.getElementById('theory-lesson-view');
 const lessonIntro = document.getElementById('lesson-intro');
+const lessonImages = document.getElementById('lesson-images');
+const lessonColors = document.getElementById('lesson-colors');
 const lessonComingSoon = document.getElementById('lesson-coming-soon');
 const btnTheoryBack = document.getElementById('btn-theory-back');
 const btnCsBack = document.getElementById('btn-cs-back');
@@ -1603,19 +1600,51 @@ const conceptNodes = document.querySelectorAll('.concept-node');
 function openTheoryTopic(topicKey) {
   if (!topicKey) return;
 
+  // Stop integrator audio when navigating to any topic other than Lesson 1
+  if (topicKey !== 'intro') {
+    stopIntegratorAudio();
+  }
+
   // Switch from Concept Map view to Lesson view
   theoryMapView.classList.remove('active');
   theoryLessonView.classList.add('active');
 
   if (topicKey === 'intro') {
-    // Open Complete Lesson
+    // Open Complete Lesson 1
     lessonIntro.style.display = 'flex';
+    if (lessonImages) lessonImages.style.display = 'none';
+    if (lessonColors) lessonColors.style.display = 'none';
     lessonComingSoon.style.display = 'none';
     theoryBreadcrumbLabel.textContent = 'مقدمة في الوسائط المتعددة (Introduction)';
+  } else if (topicKey === 'images') {
+    // Open Complete Lesson 2
+    lessonIntro.style.display = 'none';
+    if (lessonImages) lessonImages.style.display = 'flex';
+    if (lessonColors) lessonColors.style.display = 'none';
+    lessonComingSoon.style.display = 'none';
+    theoryBreadcrumbLabel.textContent = 'الصور والبكسلات (Images & Pixels)';
+
+    if (window.ImagesLessonModule) {
+      ImagesLessonModule.init();
+      ImagesLessonModule.renderSimulator();
+    }
+  } else if (topicKey === 'colors') {
+    // Open Complete Lesson 3
+    lessonIntro.style.display = 'none';
+    if (lessonImages) lessonImages.style.display = 'none';
+    if (lessonColors) lessonColors.style.display = 'flex';
+    lessonComingSoon.style.display = 'none';
+    theoryBreadcrumbLabel.textContent = 'النماذج اللونية (Color Models)';
+
+    if (window.ColorsLessonModule) {
+      window.ColorsLessonModule.init();
+    }
   } else if (upcomingTopicsData[topicKey]) {
     // Open Coming Soon view with customized metadata
     const data = upcomingTopicsData[topicKey];
     lessonIntro.style.display = 'none';
+    if (lessonImages) lessonImages.style.display = 'none';
+    if (lessonColors) lessonColors.style.display = 'none';
     lessonComingSoon.style.display = 'flex';
     csTopicIcon.textContent = data.icon;
     csTopicTitle.textContent = data.title;
@@ -1630,6 +1659,7 @@ function openTheoryTopic(topicKey) {
 }
 
 function returnToConceptMap() {
+  stopIntegratorAudio();
   theoryLessonView.classList.remove('active');
   theoryMapView.classList.add('active');
   if (theoryHubWrapper) {
@@ -1713,12 +1743,21 @@ const demoLayerText = document.getElementById('demo-layer-text');
 const demoLayerImage = document.getElementById('demo-layer-image');
 const demoLayerAnim = document.getElementById('demo-layer-anim');
 const demoLayerAudio = document.getElementById('demo-layer-audio');
+const integratorAudioPlayer = document.getElementById('integrator-audio-player');
 
 const integratorScore = document.getElementById('integrator-score');
 const integratorFill = document.getElementById('integrator-fill');
 const integratorInsight = document.getElementById('integrator-insight');
 
-function updateMediaIntegrator() {
+function stopIntegratorAudio() {
+  const audio = integratorAudioPlayer || document.getElementById('integrator-audio-player');
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+}
+
+function updateMediaIntegrator(isUserTriggered = false) {
   if (!toggleMediaText || !toggleMediaImage || !toggleMediaAnim || !toggleMediaAudio) return;
 
   const hasText = toggleMediaText.checked;
@@ -1729,8 +1768,24 @@ function updateMediaIntegrator() {
   // Toggle Layer Visibilities
   demoLayerText.style.opacity = hasText ? '1' : '0';
   demoLayerImage.style.opacity = hasImage ? '1' : '0';
-  demoLayerAnim.style.display = hasAnim ? 'block' : 'none';
+  demoLayerAnim.style.opacity = hasAnim ? '1' : '0';
   demoLayerAudio.style.opacity = hasAudio ? '1' : '0';
+
+  // Handle Audio Playback
+  const audio = integratorAudioPlayer || document.getElementById('integrator-audio-player');
+  if (audio) {
+    if (hasAudio) {
+      if (isUserTriggered) {
+        audio.currentTime = 0;
+        audio.play().catch((err) => {
+          console.warn('Audio playback was prevented:', err);
+        });
+      }
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
 
   // Calculate Engagement / Richness Score (25% per active element)
   const activeCount = (hasText ? 1 : 0) + (hasImage ? 1 : 0) + (hasAnim ? 1 : 0) + (hasAudio ? 1 : 0);
@@ -1753,11 +1808,11 @@ function updateMediaIntegrator() {
   }
 }
 
-if (toggleMediaText) toggleMediaText.addEventListener('change', updateMediaIntegrator);
-if (toggleMediaImage) toggleMediaImage.addEventListener('change', updateMediaIntegrator);
-if (toggleMediaAnim) toggleMediaAnim.addEventListener('change', updateMediaIntegrator);
-if (toggleMediaAudio) toggleMediaAudio.addEventListener('change', updateMediaIntegrator);
-updateMediaIntegrator();
+if (toggleMediaText) toggleMediaText.addEventListener('change', () => updateMediaIntegrator(false));
+if (toggleMediaImage) toggleMediaImage.addEventListener('change', () => updateMediaIntegrator(false));
+if (toggleMediaAnim) toggleMediaAnim.addEventListener('change', () => updateMediaIntegrator(false));
+if (toggleMediaAudio) toggleMediaAudio.addEventListener('change', () => updateMediaIntegrator(true));
+updateMediaIntegrator(false);
 
 // ----------------------------------------------------------
 // Section 6: Quick Knowledge Check (Quiz Engine)
@@ -1849,6 +1904,822 @@ if (btnResetQuiz) {
     updateQuizTotalScore();
   });
 }
+
+// ==========================================================
+// Lesson 2: Images & Pixels Interactive Module (Isolated Scope)
+// ==========================================================
+const ImagesLessonModule = {
+  isInitialized: false,
+  simWidth: 32,
+  simHeight: 24,
+  simGridVisible: false,
+  currentDepth: 24,
+  quizScores: { 1: null, 2: null, 3: null },
+
+  init() {
+    if (this.isInitialized) return;
+    this.isInitialized = true;
+
+    this.initSimulator();
+    this.initBitDepthVisualizer();
+    this.initCalculator();
+    this.initQuiz();
+  },
+
+  // --------------------------------------------------------
+  // A. Pixel & Resolution Simulator
+  // --------------------------------------------------------
+  initSimulator() {
+    const resButtons = document.querySelectorAll('.btn-sim-res');
+    const toggleGridBtn = document.getElementById('btn-toggle-img-grid');
+
+    resButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        resButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        this.simWidth = parseInt(btn.getAttribute('data-w'), 10);
+        this.simHeight = parseInt(btn.getAttribute('data-h'), 10);
+        this.renderSimulator();
+      });
+    });
+
+    if (toggleGridBtn) {
+      toggleGridBtn.addEventListener('click', () => {
+        this.simGridVisible = !this.simGridVisible;
+        const gridOverlay = document.getElementById('sim-grid-overlay');
+        if (gridOverlay) {
+          if (this.simGridVisible) {
+            gridOverlay.style.display = 'block';
+            gridOverlay.style.backgroundSize = `${320 / this.simWidth}px ${240 / this.simHeight}px`;
+          } else {
+            gridOverlay.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    this.renderSimulator();
+  },
+
+  renderSimulator() {
+    const canvas = document.getElementById('img-sim-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const targetW = 320;
+    const targetH = 240;
+
+    // Create an off-screen buffer at the internal resolution
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = this.simWidth;
+    offCanvas.height = this.simHeight;
+    const offCtx = offCanvas.getContext('2d');
+
+    const w = this.simWidth;
+    const h = this.simHeight;
+
+    // Draw reference educational scene on the offscreen canvas
+    // 1) Sky gradient
+    const skyGrad = offCtx.createLinearGradient(0, 0, 0, h * 0.65);
+    skyGrad.addColorStop(0, '#1565c0');
+    skyGrad.addColorStop(1, '#64b5f6');
+    offCtx.fillStyle = skyGrad;
+    offCtx.fillRect(0, 0, w, h * 0.65);
+
+    // 2) Sun circle
+    offCtx.fillStyle = '#ffb300';
+    offCtx.beginPath();
+    offCtx.arc(w * 0.8, h * 0.22, Math.max(1, w * 0.1), 0, Math.PI * 2);
+    offCtx.fill();
+
+    // 3) Back mountain
+    offCtx.fillStyle = '#2e7d32';
+    offCtx.beginPath();
+    offCtx.moveTo(w * 0.1, h * 0.65);
+    offCtx.lineTo(w * 0.45, h * 0.25);
+    offCtx.lineTo(w * 0.8, h * 0.65);
+    offCtx.closePath();
+    offCtx.fill();
+
+    // 4) Front hill
+    offCtx.fillStyle = '#43a047';
+    offCtx.beginPath();
+    offCtx.moveTo(0, h * 0.65);
+    offCtx.quadraticCurveTo(w * 0.3, h * 0.45, w * 0.6, h * 0.65);
+    offCtx.lineTo(w, h * 0.65);
+    offCtx.lineTo(w, h);
+    offCtx.lineTo(0, h);
+    offCtx.closePath();
+    offCtx.fill();
+
+    // 5) Multimedia geometric elements (Purple star/diamond & red flag)
+    offCtx.fillStyle = '#9d4edd';
+    offCtx.beginPath();
+    offCtx.moveTo(w * 0.2, h * 0.55);
+    offCtx.lineTo(w * 0.25, h * 0.42);
+    offCtx.lineTo(w * 0.3, h * 0.55);
+    offCtx.lineTo(w * 0.25, h * 0.68);
+    offCtx.closePath();
+    offCtx.fill();
+
+    // Red flag / cube
+    offCtx.fillStyle = '#e53935';
+    offCtx.fillRect(w * 0.7, h * 0.52, Math.max(1, w * 0.12), Math.max(1, h * 0.16));
+
+    // Upscale off-screen canvas to the 320x240 display canvas with nearest-neighbor (pixelated)
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, targetW, targetH);
+    ctx.drawImage(offCanvas, 0, 0, targetW, targetH);
+
+    // Update overlay grid cell size if visible
+    const gridOverlay = document.getElementById('sim-grid-overlay');
+    if (gridOverlay && this.simGridVisible) {
+      gridOverlay.style.backgroundSize = `${targetW / this.simWidth}px ${targetH / this.simHeight}px`;
+    }
+
+    // Update readout texts
+    const resBadge = document.getElementById('sim-res-badge');
+    const pixelCount = document.getElementById('sim-pixel-count');
+    const detailNote = document.getElementById('sim-detail-note');
+
+    const total = this.simWidth * this.simHeight;
+    if (resBadge) resBadge.textContent = `${this.simWidth} × ${this.simHeight}`;
+    if (pixelCount) pixelCount.textContent = `${total.toLocaleString()} بكسل`;
+
+    if (detailNote) {
+      if (this.simWidth === 16) {
+        detailNote.textContent = '💡 ملاحظة: عند الدقة 16 × 12 (192 بكسل)، تظهر بكسلة فائقة وتفقد كافة الأشكال تفاصيلها وتتحول إلى كتل ملونة ضخمة.';
+      } else if (this.simWidth === 32) {
+        detailNote.textContent = '💡 ملاحظة: عند الدقة 32 × 24 (768 بكسل)، تصبح الملامح العامة مرئية ولكن مع تسنن حاد وواضح على الحواف المائلة والمنحنيات.';
+      } else if (this.simWidth === 64) {
+        detailNote.textContent = '💡 ملاحظة: عند الدقة 64 × 48 (3,072 بكسل)، تبدأ التفاصيل بالتماسك وتصبح حواف الأشكال أكثر دقة مع بقاء خشونة خفيفة.';
+      } else if (this.simWidth === 128) {
+        detailNote.textContent = '💡 ملاحظة: عند الدقة 128 × 96 (12,288 بكسل)، تقترب الصورة من الوضوح العالي وتغدو البكسلات الفردية صعبة الملاحظة من بعد.';
+      } else {
+        detailNote.textContent = '💡 ملاحظة: عند الدقة الكاملة 320 × 240 (76,800 بكسل)، تظهر الصورة بنعومتها الأصلية التامة (1:1 Native Pixel Mapping).';
+      }
+    }
+  },
+
+  // --------------------------------------------------------
+  // B. Bit Depth Visualizer
+  // --------------------------------------------------------
+  initBitDepthVisualizer() {
+    const depthButtons = document.querySelectorAll('.btn-depth-mode');
+    depthButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        depthButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        this.currentDepth = parseInt(btn.getAttribute('data-depth'), 10);
+        this.renderBitDepthPreview();
+      });
+    });
+
+    this.renderBitDepthPreview();
+  },
+
+  renderBitDepthPreview() {
+    const canvas = document.getElementById('depth-preview-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = 480;
+    const h = 140;
+
+    ctx.clearRect(0, 0, w, h);
+
+    if (this.currentDepth === 1) {
+      // 1-bit Binary: Strict Black & White
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#000000';
+
+      // Half screen black, sharp shapes with dithering/steps
+      ctx.fillRect(0, 0, w * 0.45, h);
+
+      // Circles & shapes pure black / pure white
+      ctx.beginPath();
+      ctx.arc(w * 0.65, h * 0.5, 45, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(w * 0.25, h * 0.5, 45, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Step bars
+      for (let i = 0; i < 8; i++) {
+        ctx.fillStyle = (i % 2 === 0) ? '#000000' : '#ffffff';
+        ctx.fillRect(w * 0.8 + (i * 10), 20, 10, h - 40);
+      }
+    } else if (this.currentDepth === 8) {
+      // 8-bit Grayscale: 256 smooth luminance levels
+      const grad = ctx.createLinearGradient(15, 0, w - 15, 0);
+      grad.addColorStop(0, '#000000');
+      grad.addColorStop(0.5, '#7f7f7f');
+      grad.addColorStop(1, '#ffffff');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(15, 20, w - 30, 45);
+
+      // Spheres / shapes with smooth grayscale shading
+      const radGrad = ctx.createRadialGradient(w * 0.35, h * 0.72, 5, w * 0.35, h * 0.72, 35);
+      radGrad.addColorStop(0, '#ffffff');
+      radGrad.addColorStop(0.7, '#666666');
+      radGrad.addColorStop(1, '#1a1a1a');
+      ctx.fillStyle = radGrad;
+      ctx.beginPath();
+      ctx.arc(w * 0.35, h * 0.72, 30, 0, Math.PI * 2);
+      ctx.fill();
+
+      const radGrad2 = ctx.createRadialGradient(w * 0.65, h * 0.72, 5, w * 0.65, h * 0.72, 35);
+      radGrad2.addColorStop(0, '#cccccc');
+      radGrad2.addColorStop(0.6, '#444444');
+      radGrad2.addColorStop(1, '#050505');
+      ctx.fillStyle = radGrad2;
+      ctx.beginPath();
+      ctx.arc(w * 0.65, h * 0.72, 30, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (this.currentDepth === 24) {
+      // 24-bit True Color: Full RGB Spectrum (Fully Opaque)
+      const grad = ctx.createLinearGradient(15, 0, w - 15, 0);
+      grad.addColorStop(0, '#ff0000');
+      grad.addColorStop(0.2, '#ffff00');
+      grad.addColorStop(0.4, '#00ff00');
+      grad.addColorStop(0.6, '#00ffff');
+      grad.addColorStop(0.8, '#0000ff');
+      grad.addColorStop(1, '#ff00ff');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(15, 20, w - 30, 40);
+
+      // 3 overlapping primary color circles (Opaque)
+      ctx.fillStyle = '#ff3366';
+      ctx.beginPath();
+      ctx.arc(w * 0.36, h * 0.72, 28, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#33cc66';
+      ctx.beginPath();
+      ctx.arc(w * 0.50, h * 0.72, 28, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#3399ff';
+      ctx.beginPath();
+      ctx.arc(w * 0.64, h * 0.72, 28, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (this.currentDepth === 32) {
+      // 32-bit RGBA: True Color + Alpha Transparency over checkerboard
+      const opacities = [1.0, 0.75, 0.5, 0.25];
+      const colors = [
+        'rgba(255, 51, 102,',
+        'rgba(157, 78, 221,',
+        'rgba(0, 212, 255,',
+        'rgba(0, 230, 118,'
+      ];
+
+      for (let i = 0; i < 4; i++) {
+        ctx.fillStyle = `${colors[i]} ${opacities[i]})`;
+        ctx.beginPath();
+        ctx.arc(60 + (i * 105), h * 0.48, 42, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(`α = ${Math.round(opacities[i] * 100)}%`, 60 + (i * 105), h * 0.52);
+      }
+    }
+
+    // Update Meta and Channels UI
+    const titleEl = document.getElementById('depth-info-title');
+    const bpcEl = document.getElementById('depth-info-bpc');
+    const channelsEl = document.getElementById('depth-channels-display');
+    const textEl = document.getElementById('depth-info-text');
+
+    if (this.currentDepth === 1) {
+      if (titleEl) titleEl.textContent = '1-bit Binary (الصورة الثنائية)';
+      if (bpcEl) bpcEl.textContent = '1 بت لكل بكسل (2 مستويات)';
+      if (channelsEl) {
+        channelsEl.innerHTML = `
+          <div class="channel-pill" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff;">
+            <span class="ch-name">قناة أحادية (Monochrome):</span> <span class="ch-val mono">1 بت (0 = أسود، 1 = أبيض)</span>
+          </div>
+        `;
+      }
+      if (textEl) textEl.textContent = 'تسمح بتمثيل لونين فقط دون أي تدرجات رمادية بينهما. مثالية للمستندات النصية والماسحات الضوئية للوثائق والفاكس، وتوفر أصغر حجم ممكن لبيانات البكسل.';
+    } else if (this.currentDepth === 8) {
+      if (titleEl) titleEl.textContent = '8-bit Grayscale (التدرج الرمادي)';
+      if (bpcEl) bpcEl.textContent = '8 بت لكل بكسل (1 بايت = 256 مستوى)';
+      if (channelsEl) {
+        channelsEl.innerHTML = `
+          <div class="channel-pill" style="background: rgba(200,200,200,0.15); border: 1px solid rgba(200,200,200,0.4); color: #e0e0e0;">
+            <span class="ch-name">قناة الشدة الضوئية (Luminance):</span> <span class="ch-val mono">8 بت (القيم من 0 إلى 255)</span>
+          </div>
+        `;
+      }
+      if (textEl) textEl.textContent = 'تتألف من قناة إضاءة وحيدة تتيح 256 درجة رمادية متدرجة بنعومة من الأسود التام (0) إلى الأبيض الساطع (255)، وتُستخدم بكثرة في التصوير الشعاعي الطبي والمعالجات الأحادية.';
+    } else if (this.currentDepth === 24) {
+      if (titleEl) titleEl.textContent = '24-bit True Color (الألوان الحقيقية RGB)';
+      if (bpcEl) bpcEl.textContent = '24 بت لكل بكسل (3 بايت = 16.77 مليون لون)';
+      if (channelsEl) {
+        channelsEl.innerHTML = `
+          <div class="channel-pill red"><span class="ch-name">Red (الأحمر):</span> <span class="ch-val mono">8 بت (0-255)</span></div>
+          <div class="channel-pill green"><span class="ch-name">Green (الأخضر):</span> <span class="ch-val mono">8 بت (0-255)</span></div>
+          <div class="channel-pill blue"><span class="ch-name">Blue (الأزرق):</span> <span class="ch-val mono">8 بت (0-255)</span></div>
+        `;
+      }
+      if (textEl) textEl.textContent = 'المعيار القياسي للصور الفوتوغرافية والشاشات الملونة. كل قناة لونية تمتلك 256 مستوى شدة، لينتج عن مزجها 16,777,216 احتمالاً لونياً حقيقياً معتم بالكامل.';
+    } else if (this.currentDepth === 32) {
+      if (titleEl) titleEl.textContent = '32-bit RGBA (الألوان الحقيقية مع الشفافية)';
+      if (bpcEl) bpcEl.textContent = '32 بت لكل بكسل (4 بايت = 16.77M لون + قناة ألفا)';
+      if (channelsEl) {
+        channelsEl.innerHTML = `
+          <div class="channel-pill red"><span class="ch-name">Red:</span> <span class="ch-val mono">8 بت</span></div>
+          <div class="channel-pill green"><span class="ch-name">Green:</span> <span class="ch-val mono">8 بت</span></div>
+          <div class="channel-pill blue"><span class="ch-name">Blue:</span> <span class="ch-val mono">8 بت</span></div>
+          <div class="channel-pill alpha"><span class="ch-name">Alpha (الشفافية):</span> <span class="ch-val mono">8 بت شفافية</span></div>
+        `;
+      }
+      if (textEl) textEl.textContent = 'تحتفظ بنفس الدقة اللونية الكاملة (RGB بمجموع 24 بت) مضافاً إليها قناة ألفا (Alpha Channel) بحجم 8 بت للتحكم بدرجة التعتيم وتراكب الطبقات الرسومية فوق بعضها بسلاسة.';
+    }
+  },
+
+  // --------------------------------------------------------
+  // C. Raw File Size Calculator
+  // --------------------------------------------------------
+  initCalculator() {
+    const widthInput = document.getElementById('calc-img-w');
+    const heightInput = document.getElementById('calc-img-h');
+    const depthSelect = document.getElementById('calc-img-depth');
+    const presetButtons = document.querySelectorAll('.btn-preset');
+
+    const updateCalc = () => this.calculateFileSize();
+
+    if (widthInput) widthInput.addEventListener('input', updateCalc);
+    if (heightInput) heightInput.addEventListener('input', updateCalc);
+    if (depthSelect) depthSelect.addEventListener('change', updateCalc);
+
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        presetButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const pw = btn.getAttribute('data-w');
+        const ph = btn.getAttribute('data-h');
+        if (widthInput) widthInput.value = pw;
+        if (heightInput) heightInput.value = ph;
+        updateCalc();
+      });
+    });
+
+    this.calculateFileSize();
+  },
+
+  calculateFileSize() {
+    const widthInput = document.getElementById('calc-img-w');
+    const heightInput = document.getElementById('calc-img-h');
+    const depthSelect = document.getElementById('calc-img-depth');
+    const stepsOutput = document.getElementById('calc-steps-output');
+    const sizeResult = document.getElementById('calc-size-result');
+    const sizeSubunits = document.getElementById('calc-size-subunits');
+
+    if (!widthInput || !heightInput || !depthSelect) return;
+
+    const w = Math.max(1, parseInt(widthInput.value, 10) || 1);
+    const h = Math.max(1, parseInt(heightInput.value, 10) || 1);
+    const depth = parseInt(depthSelect.value, 10) || 24;
+
+    const totalPixels = w * h;
+    const totalBits = totalPixels * depth;
+    const totalBytes = totalBits / 8;
+    const totalKB = totalBytes / 1024;
+    const totalMB = totalKB / 1024;
+
+    if (stepsOutput) {
+      stepsOutput.innerHTML = `
+        1) إجمالي البكسلات = ${w.toLocaleString()} × ${h.toLocaleString()} = ${totalPixels.toLocaleString()} بكسل<br>
+        2) إجمالي البتات = ${totalPixels.toLocaleString()} × ${depth} بت = ${totalBits.toLocaleString()} بت<br>
+        3) الحجم بالبايت = ${totalBits.toLocaleString()} ÷ 8 = ${Math.round(totalBytes).toLocaleString()} بايت
+      `;
+    }
+
+    if (sizeResult) {
+      sizeResult.textContent = `${Math.round(totalBytes).toLocaleString()} Bytes`;
+    }
+
+    if (sizeSubunits) {
+      const kbStr = totalKB >= 1 ? totalKB.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : totalKB.toFixed(4);
+      const mbStr = totalMB >= 1 ? totalMB.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : totalMB.toFixed(4);
+      sizeSubunits.textContent = `≈ ${kbStr} KB • ${mbStr} MB`;
+    }
+  },
+
+  // --------------------------------------------------------
+  // D. Course-Aligned Quiz
+  // --------------------------------------------------------
+  initQuiz() {
+    const quizCardsImg = document.querySelectorAll('.quiz-card-img');
+    const btnReset = document.getElementById('btn-reset-quiz-img');
+    const scoreBadge = document.getElementById('quiz-summary-score-img');
+
+    const explanations = {
+      1: {
+        correct: '✓ إجابة صحيحة ومتقنة! العرض الفيزيائي = أبعاد البكسل ÷ كثافة البكسل = 600 ÷ 300 = 2 بوصة.',
+        incorrect: '✗ إجابة غير صحيحة. المعادلة المعتمدة هي: الحجم الفيزيائي (بالبوصة) = أبعاد البكسل ÷ PPI (أي 600 ÷ 300 = 2 بوصة).'
+      },
+      2: {
+        correct: '✓ إجابة صحيحة ومتقنة! الفرق الأساسي هو أن 32-bit تضيف قناة ألفا (Alpha Channel) بحجم 8 بت المخصصة للتحكم بالشفافية وتراكب الطبقات.',
+        incorrect: '✗ إجابة غير صحيحة. قنوات الألوان الثلاث (RGB) متطابقة وتوفر 16.77 مليون لون في الحالتين، لكن عمق 32-bit يضيف قناة رابعة (Alpha) للشفافية.'
+      },
+      3: {
+        correct: '✓ إجابة صحيحة ومتقنة! بالمعادلة: (800 × 600 × 24) ÷ 8 = 480,000 × 3 = 1,440,000 بايت (أي 1.37 ميجابايت تقريباً).',
+        incorrect: '✗ إجابة غير صحيحة. بتطبيق المعادلة: الحجم بالبايت = (العرض × الارتفاع × عمق البت) ÷ 8 = (800 × 600 × 24) ÷ 8 = 1,440,000 بايت.'
+      }
+    };
+
+    const updateScore = () => {
+      let answeredCount = 0;
+      let correctCount = 0;
+
+      Object.keys(this.quizScores).forEach(qNum => {
+        if (this.quizScores[qNum] !== null) {
+          answeredCount++;
+          if (this.quizScores[qNum] === true) correctCount++;
+        }
+      });
+
+      if (!scoreBadge) return;
+      if (answeredCount === 0) {
+        scoreBadge.textContent = 'النتيجة: -- / 3';
+      } else {
+        scoreBadge.textContent = `النتيجة: ${correctCount} / 3`;
+      }
+    };
+
+    quizCardsImg.forEach(card => {
+      const qNum = card.getAttribute('data-quiz');
+      const correctIdx = Number(card.getAttribute('data-correct'));
+      const options = card.querySelectorAll('.quiz-opt-img');
+      const feedbackEl = card.querySelector('.quiz-feedback-img');
+
+      options.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selectedIdx = Number(btn.getAttribute('data-index'));
+
+          options.forEach(opt => {
+            opt.classList.remove('selected-correct', 'selected-incorrect');
+          });
+
+          if (feedbackEl) feedbackEl.hidden = false;
+
+          if (selectedIdx === correctIdx) {
+            btn.classList.add('selected-correct');
+            if (feedbackEl) {
+              feedbackEl.className = 'quiz-feedback-img correct-feedback';
+              feedbackEl.textContent = explanations[qNum].correct;
+            }
+            this.quizScores[qNum] = true;
+          } else {
+            btn.classList.add('selected-incorrect');
+            if (feedbackEl) {
+              feedbackEl.className = 'quiz-feedback-img incorrect-feedback';
+              feedbackEl.textContent = explanations[qNum].incorrect;
+            }
+            this.quizScores[qNum] = false;
+          }
+
+          updateScore();
+        });
+      });
+    });
+
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        this.quizScores = { 1: null, 2: null, 3: null };
+        quizCardsImg.forEach(card => {
+          const options = card.querySelectorAll('.quiz-opt-img');
+          const feedbackEl = card.querySelector('.quiz-feedback-img');
+          options.forEach(opt => opt.classList.remove('selected-correct', 'selected-incorrect'));
+          if (feedbackEl) {
+            feedbackEl.hidden = true;
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'quiz-feedback-img';
+          }
+        });
+        updateScore();
+      });
+    }
+  }
+};
+
+window.ImagesLessonModule = ImagesLessonModule;
+
+// ==========================================================
+// LESSON 3: COLOR & COLOR MODELS MODULE
+// ==========================================================
+const ColorsLessonModule = {
+  isInitialized: false,
+  r: 230,
+  g: 57,
+  b: 70,
+  currentVennMode: 'additive',
+  quizScores: { 1: null, 2: null, 3: null },
+
+  init() {
+    if (this.isInitialized) return;
+
+    this.initRGBMixer();
+    this.initVennLab();
+    this.initQuiz();
+    this.isInitialized = true;
+  },
+
+  // --------------------------------------------------------
+  // A. RGB Mixer & Code Explorer
+  // --------------------------------------------------------
+  initRGBMixer() {
+    const sliderR = document.getElementById('color-slider-r');
+    const sliderG = document.getElementById('color-slider-g');
+    const sliderB = document.getElementById('color-slider-b');
+    const valR = document.getElementById('color-val-r');
+    const valG = document.getElementById('color-val-g');
+    const valB = document.getElementById('color-val-b');
+    const previewBox = document.getElementById('color-preview-box');
+    const codeDec = document.getElementById('color-code-decimal');
+    const codeHex = document.getElementById('color-code-hex');
+    const codeBin = document.getElementById('color-code-binary');
+    const presetButtons = document.querySelectorAll('#lesson-colors .btn-color-preset');
+
+    const updateMixer = () => {
+      // Keep channel values within valid bounds [0, 255]
+      this.r = Math.max(0, Math.min(255, Math.round(this.r)));
+      this.g = Math.max(0, Math.min(255, Math.round(this.g)));
+      this.b = Math.max(0, Math.min(255, Math.round(this.b)));
+
+      // 1. Synchronize range sliders
+      if (sliderR && Number(sliderR.value) !== this.r) sliderR.value = this.r;
+      if (sliderG && Number(sliderG.value) !== this.g) sliderG.value = this.g;
+      if (sliderB && Number(sliderB.value) !== this.b) sliderB.value = this.b;
+
+      // 2. Synchronize value badges
+      if (valR) valR.textContent = this.r;
+      if (valG) valG.textContent = this.g;
+      if (valB) valB.textContent = this.b;
+
+      // 3. Live Preview Swatch
+      if (previewBox) {
+        previewBox.style.backgroundColor = `rgb(${this.r}, ${this.g}, ${this.b})`;
+      }
+
+      // 4. Synchronize Code Outputs
+      // Decimal: rgb(R, G, B)
+      if (codeDec) {
+        codeDec.textContent = `rgb(${this.r}, ${this.g}, ${this.b})`;
+      }
+
+      // Hexadecimal: #RRGGBB
+      const hexR = this.r.toString(16).padStart(2, '0').toUpperCase();
+      const hexG = this.g.toString(16).padStart(2, '0').toUpperCase();
+      const hexB = this.b.toString(16).padStart(2, '0').toUpperCase();
+      if (codeHex) {
+        codeHex.textContent = `#${hexR}${hexG}${hexB}`;
+      }
+
+      // Binary: 8-bit per channel
+      const binR = this.r.toString(2).padStart(8, '0');
+      const binG = this.g.toString(2).padStart(8, '0');
+      const binB = this.b.toString(2).padStart(8, '0');
+      if (codeBin) {
+        codeBin.textContent = `${binR} ${binG} ${binB}`;
+      }
+    };
+
+    // Attach slider input listeners
+    if (sliderR) {
+      sliderR.addEventListener('input', (e) => {
+        this.r = Number(e.target.value);
+        updateMixer();
+      });
+    }
+    if (sliderG) {
+      sliderG.addEventListener('input', (e) => {
+        this.g = Number(e.target.value);
+        updateMixer();
+      });
+    }
+    if (sliderB) {
+      sliderB.addEventListener('input', (e) => {
+        this.b = Number(e.target.value);
+        updateMixer();
+      });
+    }
+
+    // Attach preset buttons listeners
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pr = btn.getAttribute('data-r');
+        const pg = btn.getAttribute('data-g');
+        const pb = btn.getAttribute('data-b');
+        if (pr !== null && pg !== null && pb !== null) {
+          this.r = Number(pr);
+          this.g = Number(pg);
+          this.b = Number(pb);
+          updateMixer();
+        }
+      });
+    });
+
+    // Initial render of mixer
+    updateMixer();
+  },
+
+  // --------------------------------------------------------
+  // B. Additive vs. Subtractive Venn Lab
+  // --------------------------------------------------------
+  setVennMode(mode) {
+    const btnAdditive = document.getElementById('color-btn-additive');
+    const btnSubtractive = document.getElementById('color-btn-subtractive');
+    const vennStage = document.getElementById('color-venn-stage');
+    const label1 = document.getElementById('color-venn-label-1');
+    const label2 = document.getElementById('color-venn-label-2');
+    const label3 = document.getElementById('color-venn-label-3');
+    const centerBadge = document.getElementById('color-venn-center');
+    const vennTitle = document.getElementById('color-venn-title');
+    const vennRules = document.getElementById('color-venn-rules');
+
+    this.currentVennMode = mode;
+
+    if (vennStage) {
+      vennStage.classList.toggle('mode-subtractive', mode === 'subtractive');
+      vennStage.classList.toggle('mode-additive', mode !== 'subtractive');
+    }
+
+    if (mode === 'subtractive') {
+      if (btnAdditive) btnAdditive.classList.remove('active');
+      if (btnSubtractive) btnSubtractive.classList.add('active');
+
+      if (label1) label1.textContent = 'Cyan';
+      if (label2) label2.textContent = 'Magenta';
+      if (label3) label3.textContent = 'Yellow';
+      if (centerBadge) centerBadge.textContent = 'Black (أسود)';
+
+      if (vennTitle) vennTitle.textContent = 'النموذج الطرّحي (CMY Pigment / Ink Synthesis)';
+      if (vennRules) {
+        vennRules.innerHTML = `
+          <li><strong>الخلفية:</strong> بيضاء تمثل سطح الورقة العاكسة للضوء.</li>
+          <li><strong>تراكب زوجي:</strong> C + M = أزرق (Blue)، M + Y = أحمر (Red)، C + Y = أخضر (Green).</li>
+          <li><strong>التراكب الكلي بالمركز:</strong> امتصاص كافة موجات الضوء ينتج <strong>الأسود النظري</strong> ($C + M + Y = \\text{Black}$).</li>
+        `;
+      }
+    } else {
+      if (btnAdditive) btnAdditive.classList.add('active');
+      if (btnSubtractive) btnSubtractive.classList.remove('active');
+
+      if (label1) label1.textContent = 'Red';
+      if (label2) label2.textContent = 'Green';
+      if (label3) label3.textContent = 'Blue';
+      if (centerBadge) centerBadge.textContent = 'White (أبيض)';
+
+      if (vennTitle) vennTitle.textContent = 'النموذج الجمعي (RGB Light Synthesis)';
+      if (vennRules) {
+        vennRules.innerHTML = `
+          <li><strong>الخلفية:</strong> سوداء تمثل انعدام الإضاءة في الشاشات.</li>
+          <li><strong>تراكب زوجي:</strong> R + G = أصفر (Yellow)، G + B = سماوي (Cyan)، R + B = أرجواني (Magenta).</li>
+          <li><strong>التراكب الكلي بالمركز:</strong> دمج كافة حزم الضوء ينتج <strong>الأبيض التام</strong> ($R + G + B = \\text{White}$).</li>
+        `;
+      }
+    }
+  },
+
+  initVennLab() {
+    const btnAdditive = document.getElementById('color-btn-additive');
+    const btnSubtractive = document.getElementById('color-btn-subtractive');
+
+    if (btnAdditive) {
+      btnAdditive.addEventListener('click', () => {
+        this.setVennMode('additive');
+      });
+    }
+
+    if (btnSubtractive) {
+      btnSubtractive.addEventListener('click', () => {
+        this.setVennMode('subtractive');
+      });
+    }
+
+    this.setVennMode(this.currentVennMode || 'additive');
+  },
+
+  // --------------------------------------------------------
+  // C. Knowledge Check Quiz
+  // --------------------------------------------------------
+  initQuiz() {
+    const quizCards = document.querySelectorAll('#lesson-colors .quiz-card-color');
+    const btnReset = document.getElementById('btn-reset-quiz-color');
+    const scoreBadge = document.getElementById('quiz-summary-score-color');
+
+    const explanations = {
+      1: {
+        correct: '✓ إجابة صحيحة! تستطيع العين البشرية السليمة التمييز بين 7 إلى 9 ملايين لون مختلف تقريباً كما ورد بالمنهج.',
+        incorrect: '✗ إجابة غير دقيقة. تؤكد الشرائح المعتمدة أن العين البشرية تستطيع التمييز بين حوالي 7 إلى 9 ملايين لون.'
+      },
+      2: {
+        correct: '✓ إجابة صحيحة ومثالية! RGB نموذج جمعي يبدأ من الشاشة السوداء ويضيف الضوء، بينما CMYK طرّحي يبدأ من الورق الأبيض ويمتص الضوء بالصبغات.',
+        incorrect: '✗ إجابة غير صحيحة. الفارق الجوهري: RGB يعتمد على انبعاث الضوء وجمعه من نقطة الصفر (الأسود)، بينما CMYK يعتمد على امتصاص الضوء المنعكس من الورقة (الأبيض).'
+      },
+      3: {
+        correct: '✓ إجابة صحيحة ومتقنة! قيمة R=0 تقابلها 00، وقيمة G=255 تقابلها FF، وقيمة B=0 تقابلها 00، فيكون الرمز الست عشري #00FF00.',
+        incorrect: '✗ إجابة غير صحيحة. القنوات مرتبة كـ R ثم G ثم B؛ وبما أن الأخضر G=255 والأحمر والأزرق صفران، فالتمثيل الصحيح هو #00FF00 (#FF0000 للأحمر و #0000FF للأزرق).'
+      }
+    };
+
+    const updateScore = () => {
+      let answeredCount = 0;
+      let correctCount = 0;
+
+      Object.keys(this.quizScores).forEach(qNum => {
+        if (this.quizScores[qNum] !== null) {
+          answeredCount++;
+          if (this.quizScores[qNum] === true) correctCount++;
+        }
+      });
+
+      if (!scoreBadge) return;
+      if (answeredCount === 0) {
+        scoreBadge.textContent = 'النتيجة: -- / 3';
+      } else {
+        scoreBadge.textContent = `النتيجة: ${correctCount} / 3`;
+      }
+    };
+
+    quizCards.forEach(card => {
+      const qNum = card.getAttribute('data-quiz');
+      const correctIdx = Number(card.getAttribute('data-correct'));
+      const options = card.querySelectorAll('.quiz-opt-color');
+      const feedbackEl = card.querySelector('.quiz-feedback-color');
+
+      options.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Prevent changing or answering if already answered
+          if (this.quizScores[qNum] !== null) return;
+
+          const selectedIdx = Number(btn.getAttribute('data-index'));
+
+          // Disable options in this card to prevent further interaction
+          options.forEach(opt => {
+            opt.disabled = true;
+          });
+
+          if (feedbackEl) feedbackEl.hidden = false;
+
+          if (selectedIdx === correctIdx) {
+            btn.classList.add('selected-correct');
+            if (feedbackEl) {
+              feedbackEl.className = 'quiz-feedback-color correct-feedback';
+              feedbackEl.textContent = explanations[qNum] ? explanations[qNum].correct : '✓ إجابة صحيحة!';
+            }
+            this.quizScores[qNum] = true;
+          } else {
+            btn.classList.add('selected-incorrect');
+            if (feedbackEl) {
+              feedbackEl.className = 'quiz-feedback-color incorrect-feedback';
+              feedbackEl.textContent = explanations[qNum] ? explanations[qNum].incorrect : '✗ إجابة غير صحيحة.';
+            }
+            this.quizScores[qNum] = false;
+          }
+
+          updateScore();
+        });
+      });
+    });
+
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        this.quizScores = { 1: null, 2: null, 3: null };
+        quizCards.forEach(card => {
+          const options = card.querySelectorAll('.quiz-opt-color');
+          const feedbackEl = card.querySelector('.quiz-feedback-color');
+
+          options.forEach(opt => {
+            opt.disabled = false;
+            opt.classList.remove('selected-correct', 'selected-incorrect');
+          });
+
+          if (feedbackEl) {
+            feedbackEl.hidden = true;
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'quiz-feedback-color';
+          }
+        });
+
+        updateScore();
+      });
+    }
+  }
+};
+
+window.ColorsLessonModule = ColorsLessonModule;
 
 // Initial Setup
 bgLayer.className = 'comp-layer background-layer bg-studio';
